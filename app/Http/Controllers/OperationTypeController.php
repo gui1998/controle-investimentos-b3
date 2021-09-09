@@ -119,4 +119,9 @@ class OperationTypeController extends Controller
 
         return response()->json(['success' => 'OperationType deleted successfully']);
     }
+
+    public function getListOperationTypes()
+    {
+        return OperationType::all()->toArray();
+    }
 }

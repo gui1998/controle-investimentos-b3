@@ -14,5 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         ( new StockTypeSeeder)->run();
+        ( new OperationTypeSeeder)->run();
+        ( new IncomeTypeSeeder)->run();
+        ( new SectorSeeder)->run();
     }
 }

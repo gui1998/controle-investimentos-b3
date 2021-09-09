@@ -5,6 +5,20 @@
         <span>{{ __('Dashboard') }}</span></a>
 </li>
 
+<!-- Nav Item - Operation -->
+<li class="nav-item {{ Nav::isRoute('operations') }}">
+    <a class="nav-link" href="{{ route('operations.index') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>{{ __('Operações') }}</span></a>
+</li>
+
+<!-- Nav Item - Income -->
+<li class="nav-item {{ Nav::isRoute('incomes') }}">
+    <a class="nav-link" href="{{ route('incomes.index') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>{{ __('Rendimentos') }}</span></a>
+</li>
+
 <!-- Nav Item - Stock Types -->
 <li class="nav-item {{ Nav::isRoute('stockTypes') }}">
     <a class="nav-link" href="{{ route('stockTypes.index') }}">
@@ -45,13 +59,6 @@
     <a class="nav-link" href="{{ route('brokers.index') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>{{ __('Corretoras') }}</span></a>
-</li>
-
-<!-- Nav Item - Income -->
-<li class="nav-item {{ Nav::isRoute('incomes') }}">
-    <a class="nav-link" href="{{ route('incomes.index') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>{{ __('Rendimentos') }}</span></a>
 </li>
 
 <!-- Nav Item - Profile -->

@@ -49,7 +49,7 @@ class IncomeController extends Controller
                     return $data->users->name;
                 })
                 ->addColumn('net_value', function ($data) {
-                    return ($data->total - $data->discount) * $data->stock_amount;
+                    return round((($data->total - $data->discount) * $data->stock_amount),2);
                 })
                 ->addColumn('stock', function ($data) {
                     return $data->stocks->code;

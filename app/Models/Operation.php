@@ -45,6 +45,11 @@ class Operation extends Model
         return $this->belongsTo(Stock::class, 'stock_id', 'id');
     }
 
+    public function brokers()
+    {
+        return $this->belongsTo(Broker::class, 'broker_id', 'id');
+    }
+
     public function operationTypes()
     {
         return $this->belongsTo(OperationType::class, 'operation_type_id', 'id');

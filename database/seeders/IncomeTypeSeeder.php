@@ -6,13 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class StockTypeSeeder extends Seeder
+class IncomeTypeSeeder extends Seeder
 {
-    static $stockTypes = [
-        'FII',
-        'Ação',
-        'Opção',
-        'ADR',
+    static $incomeTypes = [
+        'JCP',
+        'Dividendos',
+        'Bonificação',
     ];
 
     /**
@@ -22,8 +21,8 @@ class StockTypeSeeder extends Seeder
      */
     public function run()
     {
-        foreach (self::$stockTypes as $type) {
-            DB::table('stock_types')->insert([
+        foreach (self::$incomeTypes as $type) {
+            DB::table('income_types')->insert([
                 'name' => $type,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

@@ -46,4 +46,9 @@ class ProfileController extends Controller
 
         return redirect()->route('profile')->withSuccess('Profile updated successfully.');
     }
+
+    public function me()
+    {
+        return Auth::user();
+    }
 }
