@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+Route::get('/me', 'ProfileController@me')->name('me');
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -58,15 +59,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('operationTypes', 'OperationTypeController');
 // Route for get operationTypes for yajra post request.
     Route::get('get-operationTypes', 'OperationTypeController@getOperationTypes')->name('get-operationTypes');
+    Route::get('list-operationTypes', 'OperationTypeController@getListOperationTypes')->name('list-operationTypes');
 
 // Resource Route for brokers.
     Route::resource('brokers', 'BrokerController');
 // Route for get brokers for yajra post request.
     Route::get('get-brokers', 'BrokerController@getBrokers')->name('get-brokers');
+    Route::get('list-brokers', 'BrokerController@getListBrokers')->name('list-brokers');
 
 // Resource Route for incomes.
     Route::resource('incomes', 'IncomeController');
 // Route for get stocktypes for yajra post request.
     Route::get('get-incomes', 'IncomeController@getIncomes')->name('get-incomes');
+
+// Resource Route for operations.
+    Route::resource('operations', 'OperationController');
+// Route for get stocktypes for yajra post request.
+    Route::get('get-operations', 'OperationController@getOperations')->name('get-operations');
 
 });

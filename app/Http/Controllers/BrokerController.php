@@ -129,7 +129,7 @@ class BrokerController extends Controller
         return response()->json(['success' => 'Broker deleted successfully']);
     }
 
-    public function getListBroker()
+    public function getListBrokers()
     {
         return Broker::all()->toArray();
     }

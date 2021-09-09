@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Broker;
 use App\Models\Sector;
 use App\Models\Operation;
 use App\Models\OperationType;
@@ -39,8 +40,11 @@ class OperationController extends Controller
 
         try {
             return DataTables::of($data)
-                ->editColumn('payment_date', function ($data) {
-                    return date('d/m/Y', strtotime($data->payment_date));
+                ->editColumn('operation_date', function ($data) {
+                    return date('d/m/Y', strtotime($data->operation_date));
+                })
+                ->editColumn('buy_r_sell', function ($data) {
+                    return ($data->buy_r_sell == 'C')?'Compra':"Venda";
                 })
                 ->addColumn('operation_type', function ($data) {
                     return $data->operationTypes->name;
@@ -48,11 +52,11 @@ class OperationController extends Controller
                 ->addColumn('user', function ($data) {
                     return $data->users->name;
                 })
-                ->addColumn('net_value', function ($data) {
-                    return ($data->total - $data->discount) * $data->stock_amount;
-                })
                 ->addColumn('stock', function ($data) {
                     return $data->stocks->code;
+                })
+                ->addColumn('net_value', function ($data) {
+                    return round((($data->price - ($data->cost + $data->irrf)) * $data->stock_amount),2);
                 })
                 ->addColumn('Actions', function ($data) {
                     return '<button type="button" class="btn btn-success btn-sm" id="getEditOperationData" data-id="' . $data->id . '">Edit</button>
@@ -76,19 +80,21 @@ class OperationController extends Controller
 
         $validator = Validator::make($request->all(),
             [
-                'payment_date' => 'required|date_format:d/m/Y',
-                'discount' => 'required|gt:0.00',
-                'total' => 'required|gt:0.00',
+                'operation_date' => 'required|date_format:d/m/Y',
+                'cost' => 'required|gt:0.00',
+                'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
                 'operation_type_id' => 'required',
             ],
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',
-                'payment_date.required' => 'O campo data do pagamento é obrigatório.',
-                'payment_date.date_format' => 'O campo data não contem uma data válida.',
-                'discount.required' => 'O campo desconto é obrigatório.',
-                'discount.gt' => 'O campo desconto deve ser maior que 0.',
+                'operation_date.required' => 'O campo data do pagamento é obrigatório.',
+                'operation_date.date_format' => 'O campo data não contem uma data válida.',
+                'cost.required' => 'O campo custo é obrigatório.',
+                'cost.gt' => 'O campo custo deve ser maior que 0.',
+                'price.required' => 'O campo preço é obrigatório.',
+                'price.gt' => 'O campo preço deve ser maior que 0.',
                 'stock_type_id.required' => 'O campo tipo é obrigatório.',
                 'company_name.required' => 'O campo Empresa  é obrigatório.',
                 'code.required' => 'O campo código é obrigatório.',
@@ -118,11 +124,13 @@ class OperationController extends Controller
 
         $operationTypes = OperationType::all();
         $stocks = Stock::all();
+        $brokers = Broker::all();
 
         return view('operations.edit', [
             'operation' => $operations,
             'operation_types' => $operationTypes,
             'stocks' => $stocks,
+            'brokers' => $brokers,
         ]);
     }
 
@@ -135,27 +143,27 @@ class OperationController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'payment_date' => 'required|date_format:d/m/Y',
-                'discount' => 'required|gt:0.00',
-                'total' => 'required|gt:0.00',
+                'operation_date' => 'required|date_format:d/m/Y',
+                'cost' => 'required|gt:0.00',
+                'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
                 'operation_type_id' => 'required',
             ],
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',
-                'payment_date.required' => 'O campo data do pagamento é obrigatório.',
-                'payment_date.date_format' => 'O campo data não contem uma data válida.',
-                'discount.required' => 'O campo desconto é obrigatório.',
-                'discount.gt' => 'O campo desconto deve ser maior que 0.',
-                'stock_type_id.required' => 'O campo tipo é obrigatório.',
-                'company_name.required' => 'O campo Empresa  é obrigatório.',
-                'code.required' => 'O campo código é obrigatório.',
+                'operation_date.required' => 'O campo data do pagamento é obrigatório.',
+                'operation_date.date_format' => 'O campo data não contem uma data válida.',
+                'cost.required' => 'O campo custo é obrigatório.',
+                'cost.gt' => 'O campo custo deve ser maior que 0.',
+                'price.required' => 'O campo preço é obrigatório.',
+                'price.gt' => 'O campo preço deve ser maior que 0.',
                 'stock_id.required' => 'O campo ação é obrigatório.',
                 'stock_amount.required' => 'O campo quantidade de ações é obrigatório.',
                 'stock_amount.gt' => 'O campo quantidade de ações deve ser maior que 0.',
             ]
         );
+
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);

@@ -1,4 +1,3 @@
-
 @if(Auth::guest())
     <script type="text/javascript">
         window.location = "{ url('/login') }";//here double curly bracket
@@ -308,8 +307,10 @@
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <!-- Bootstrap core JavaScript-->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 
@@ -331,23 +332,25 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        //Adicionar select com busca
         $('.select2').select2({
             theme: 'bootstrap4',
         });
 
         $('body').on('click', '.modelClose', function (e) {
-            $('select option').each(function (index, value){
+            $('select option').each(function (index, value) {
                 $(this).remove();
             });
 
-            $('.alert-danger').each(function (index, value){
+            $('.alert-danger').each(function (index, value) {
                 $(this).hide();
             });
 
             $('div.modal').hide();
         });
 
-        $('.date').mask("99/99/9999", {placeholder: 'MM/DD/YYYY' });
+        //Mascaras
+        $('.date').mask("99/99/9999", {placeholder: 'MM/DD/YYYY'});
         $('.positiveNumber').mask('Z#', {
             translation: {
                 'Z': {
@@ -357,6 +360,20 @@
         });
         $('.money').mask("#################.##", {reverse: true});
 
+        //Verificar sessão
+        {{--setInterval(function () {--}}
+        {{--    const me = $.ajax({--}}
+        {{--        url: '{{route('me')}}',--}}
+        {{--        data: "check",--}}
+        {{--        success: function (response) {--}}
+        {{--        },--}}
+        {{--        error: function (response) {--}}
+        {{--            if (!response.name) {--}}
+        {{--                document.location.reload(true);--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--}, 1000);--}}
     });
 
 </script>

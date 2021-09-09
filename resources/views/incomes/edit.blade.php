@@ -32,7 +32,7 @@
                                         <div class="col">
                                             <label for="stock_amount">Quantidade de Ações:</label>
                                             <input type="text"
-                                                   class="form-control positiveNumber @error('stock_amount') is-invalid @enderror""  name="stock_amount"
+                                                   class="form-control positiveNumber @error('stock_amount') is-invalid @enderror"  name="stock_amount"
                                                    id="stock_amount"
                                                    value="{{ old('stock_amount', $income->stock_amount) }}"
                                                    required>
@@ -41,7 +41,7 @@
                                         <div class="col">
                                             <label for="discount" class="font-weight-bold">Desconto:</label>
                                             <input type="text"
-                                                   class="form-control money @error('total') is-invalid @enderror"
+                                                   class="form-control money @error('discount') is-invalid @enderror"
                                                    name="discount"
                                                    value="{{ old('discount', $income->discount) }}">
                                         </div>
