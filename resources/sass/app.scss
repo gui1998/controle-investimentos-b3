@@ -1,0 +1,41 @@
+@import "~select2-bootstrap-theme/dist/select2-bootstrap.css";
+
+label, input {
+    display: block;
+}
+
+label {
+    margin-left: 5px;
+}
+
+input {
+    padding: 2px;
+}
+
+.modal {
+    display: table;
+}
+
+.navbar-nav{
+    z-index: 10;
+}
+
+.body {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.table {
+    background-color: #eee;
+    height: 100%;
+    margin-bottom: 0;
+}
+.table-responsive {
+    height: 100%;
+}

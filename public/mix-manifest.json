@@ -1,0 +1,7 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/home/chart-area.js": "/js/home/chart-area.js",
+    "/js/home/chart-bar.js": "/js/home/chart-bar.js",
+    "/js/home/chart-pie.js": "/js/home/chart-pie.js"
+}
