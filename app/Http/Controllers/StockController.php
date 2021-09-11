@@ -144,6 +144,12 @@ class StockController extends Controller
     public function destroy($id)
     {
         $stock = new Stock;
+        $operationExists = Stock::with('operations')->where('id', $id)->first();
+
+        if(!blank($operationExists->operations)){
+            return response()->json(['errors' => 'Ação esta cadastrada em Operações!']);
+        };
+
         $stock->deleteData($id);
 
         return response()->json(['success' => 'Stock deleted successfully']);

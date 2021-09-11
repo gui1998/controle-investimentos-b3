@@ -1,10 +1,5 @@
 <!-- Nav Item - Dashboard -->
-<li class="nav-item {{ Nav::isRoute('home') }}">
-    <a class="nav-link" href="{{ route('home') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>{{ __('Dashboard') }}</span></a>
-</li>
-
+<div>
 <!-- Nav Item - Operation -->
 <li class="nav-item {{ Nav::isRoute('operations') }}">
     <a class="nav-link" href="{{ route('operations.index') }}">
@@ -68,3 +63,4 @@
         <span>{{ __('Perfil') }}</span>
     </a>
 </li>
+</div>

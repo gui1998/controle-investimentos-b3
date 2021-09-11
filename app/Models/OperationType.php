@@ -39,6 +39,6 @@ class OperationType extends Model
 
     public function operations()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Operation::class);
     }
 }

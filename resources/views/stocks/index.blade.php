@@ -100,23 +100,28 @@
         </div>
     </div>
 
+
     <!-- Delete Stock Modal -->
     <div class="modal" id="DeleteStockModal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Stock Delete</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <h4>Are you sure want to delete this Stock?</h4>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                        <strong>Success!</strong>Stock was added successfully.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="SubmitDeleteStockForm">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -269,8 +274,15 @@
                     url: "stocks/" + id,
                     method: 'DELETE',
                     success: function (result) {
-                        $('.datatable').DataTable().ajax.reload();
-                        $('#DeleteStockModal').hide();
+                        if (result.errors) {
+                            $('#DeleteStockModal').show();
+                            $('.alert-danger').html('');
+                            $('.alert-danger').show();
+                            $('.alert-danger').append('<strong><li>' + result.errors + '</li></strong>');
+                        } else {
+                            $('.datatable').DataTable().ajax.reload();
+                            $('#DeleteStockModal').hide();
+                        }
                     }
                 });
             });

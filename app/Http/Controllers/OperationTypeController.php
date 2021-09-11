@@ -115,6 +115,12 @@ class OperationTypeController extends Controller
     public function destroy($id)
     {
         $operationType = new OperationType;
+        $operationExists = OperationType::with('operations')->where('id', $id)->first();
+
+        if(!blank($operationExists->operations)){
+            return response()->json(['errors' => 'Tipo esta cadastrado em Operações!']);
+        };
+
         $operationType->deleteData($id);
 
         return response()->json(['success' => 'OperationType deleted successfully']);
