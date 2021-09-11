@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Broker;
 use App\Models\Sector;
 use App\Models\Operation;
-use App\Models\OperationType;
 use App\Models\Stock;
 use App\Models\User;
 use Carbon\Carbon;
@@ -46,9 +45,6 @@ class OperationController extends Controller
                 ->editColumn('buy_r_sell', function ($data) {
                     return ($data->buy_r_sell == 'C')?'Compra':"Venda";
                 })
-                ->addColumn('operation_type', function ($data) {
-                    return $data->operationTypes->name;
-                })
                 ->addColumn('user', function ($data) {
                     return $data->users->name;
                 })
@@ -85,7 +81,6 @@ class OperationController extends Controller
                 'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
-                'operation_type_id' => 'required',
             ],
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',
@@ -122,13 +117,11 @@ class OperationController extends Controller
         $operation = new Operation;
         $operations = $operation->findData($id);
 
-        $operationTypes = OperationType::all();
         $stocks = Stock::all();
         $brokers = Broker::all();
 
         return view('operations.edit', [
             'operation' => $operations,
-            'operation_types' => $operationTypes,
             'stocks' => $stocks,
             'brokers' => $brokers,
         ]);
@@ -148,7 +141,6 @@ class OperationController extends Controller
                 'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
-                'operation_type_id' => 'required',
             ],
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',

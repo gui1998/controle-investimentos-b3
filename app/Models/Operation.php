@@ -17,7 +17,7 @@ class Operation extends Model
 
     public function getData()
     {
-        return static::with(['users', 'stocks', 'operationTypes'])->orderBy('created_at', 'desc')->get();
+        return static::with(['users', 'stocks'])->orderBy('created_at', 'desc')->get();
     }
 
     public function storeData($input)
@@ -48,11 +48,6 @@ class Operation extends Model
     public function brokers()
     {
         return $this->belongsTo(Broker::class, 'broker_id', 'id');
-    }
-
-    public function operationTypes()
-    {
-        return $this->belongsTo(OperationType::class, 'operation_type_id', 'id');
     }
 
     public function users()

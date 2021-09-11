@@ -87,17 +87,6 @@
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <label for="operation_type_id">Tipo da Operação:</label>
-                                            <select name="operation_type_id" id="operation_type_id"
-                                                    class="form-control select2"
-                                                    required>
-                                                @foreach($operation_types as $types)
-                                                    <option
-                                                        value="{{ $types->id }}" {{ $types->id == $operation->operationTypes->id ? 'selected' : '' }}>{{ $types->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col">
                                             <label for="stock_id">Ação:</label>
                                             <select name="stock_id" id="stock_id" class="form-control select2" required>
                                                 @foreach($stocks as $stock)

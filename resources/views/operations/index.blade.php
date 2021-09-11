@@ -23,7 +23,6 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Tipo</th>
                                     <th>Compra ou Venda</th>
                                     <th>Ação</th>
                                     <th>Data de Pagamento</th>
@@ -122,11 +121,6 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <label for="operation_type">Tipo de Operação:</label>
-                                <select name="operation_type" id="operation_type" class="form-control select2" required>
-                                </select>
-                            </div>
-                            <div class="col">
                                 <label for="stock">Ação:</label>
                                 <select name="stock" id="stock" class="form-control select2" required>
                                 </select>
@@ -182,7 +176,6 @@
                 ajax: '{{ route('get-operations') }}',
                 columns: [
                     {data: 'id'},
-                    {data: 'operation_type'},
                     {data: 'buy_r_sell'},
                     {data: 'stock'},
                     {data: 'operation_date'},
@@ -204,14 +197,11 @@
             $('body').on('click', '#getCreateOperationModal', function (e) {
 
                 $.ajax({
-                    url: '{{route('list-operationTypes')}}', success: function (result) {
-                        result.forEach(function (e, i) {
-                            $('#operation_type').append($('<option></option>').val(e.id).text(e.name));
-                        });
-                    }
-                });
-                $.ajax({
                     url: '{{route('list-stocks')}}', success: function (result) {
+                        if (!result.length) {
+                            alert("Necessário cadastrar uma ação!");
+                            window.location.href = '../stocks';
+                        }
                         result.forEach(function (e, i) {
                             $('#stock').append($('<option></option>').val(e.id).text(e.code));
                         });
@@ -219,6 +209,10 @@
                 });
                 $.ajax({
                     url: '{{route('list-brokers')}}', success: function (result) {
+                        if (!result.length) {
+                            alert("Necessário cadastrar uma corretora!");
+                            window.location.href = '../brokers';
+                        }
                         result.forEach(function (e, i) {
                             $('#broker').append($('<option></option>').val(e.id).text(e.name));
                         });
@@ -245,7 +239,6 @@
                         cost: $('#cost').val(),
                         irrf: $('#irrf').val(),
                         price: $('#price').val(),
-                        operation_type_id: $('#operation_type').val(),
                         stock_id: $('#stock').val(),
                         broker_id: $('#broker').val(),
                         buy_r_sell: $('#buy_r_sell').val(),
