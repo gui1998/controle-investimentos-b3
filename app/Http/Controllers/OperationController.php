@@ -43,7 +43,7 @@ class OperationController extends Controller
                     return date('d/m/Y', strtotime($data->operation_date));
                 })
                 ->editColumn('buy_r_sell', function ($data) {
-                    return ($data->buy_r_sell == 'C')?'Compra':"Venda";
+                    return ($data->buy_r_sell == 'C') ? 'Compra' : "Venda";
                 })
                 ->addColumn('user', function ($data) {
                     return $data->users->name;
@@ -52,7 +52,7 @@ class OperationController extends Controller
                     return $data->stocks->code;
                 })
                 ->addColumn('net_value', function ($data) {
-                    return round((($data->price - ($data->cost + $data->irrf)) * $data->stock_amount),2);
+                    return round((($data->price - ($data->cost + $data->irrf)) * $data->stock_amount), 2);
                 })
                 ->addColumn('Actions', function ($data) {
                     return '<button type="button" class="btn btn-success btn-sm" id="getEditOperationData" data-id="' . $data->id . '">Edit</button>
@@ -103,7 +103,19 @@ class OperationController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $operation->storeData(array_merge($request->all(), ['user_id' => $request->user('web')->id]));
+        $date = $request->get('operation_date');
+        $date = str_replace('/', '-', $date);
+        $date = Carbon::parse($date)->timezone('America/Sao_Paulo');
+
+        $operation->storeData(
+            array_merge(
+                $request->all(),
+                [
+                    'user_id' => $request->user('web')->id,
+                    'operation_date' => $date
+                ]
+            )
+        );
 
         return response()->json(['success' => 'Operation added successfully']);
     }
@@ -160,8 +172,11 @@ class OperationController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
+        $date = $request->get('operation_date');
+        $date = str_replace('/', '-', $date);
+        $date = Carbon::parse($date)->timezone('America/Sao_Paulo');
 
-        $operation->update($request->all());
+        $operation->update(array_merge($request->all(), ['operation_date' => $date]));
 
         return redirect()->route('operations.index');
     }

@@ -101,8 +101,19 @@ class IncomeController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
+        $date = $request->get('payment_date');
+        $date = str_replace('/', '-', $date);
+        $date = Carbon::parse($date)->timezone('America/Sao_Paulo');
 
-        $income->storeData(array_merge($request->all(), ['user_id' => $request->user('web')->id]));
+        $income->storeData(
+            array_merge(
+                $request->all(),
+                [
+                    'user_id' => $request->user('web')->id,
+                    'payment_date' => $date
+                ]
+            )
+        );
 
         return response()->json(['success' => 'Income added successfully']);
     }
@@ -161,7 +172,11 @@ class IncomeController extends Controller
             return Redirect::back()->withErrors($validator);
         }
 
-        $income->update($request->all());
+        $date = $request->get('payment_date');
+        $date = str_replace('/', '-', $date);
+        $date = Carbon::parse($date)->timezone('America/Sao_Paulo');
+
+        $income->update(array_merge($request->all(), ['payment_date' => $date]));
 
         return redirect()->route('incomes.index');
     }
