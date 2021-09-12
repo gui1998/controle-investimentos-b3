@@ -23,16 +23,14 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Tipo</th>
                                     <th>Compra ou Venda</th>
                                     <th>Ação</th>
-                                    <th>Data de Pagamento</th>
+                                    <th>Data da Operação</th>
                                     <th>Quantidade de Ações</th>
                                     <th>Custo</th>
                                     <th>Irrf</th>
                                     <th>Valor Bruto</th>
                                     <th>Valor Líquido Total</th>
-                                    <th width="150" class="text-center">Action</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -117,13 +115,8 @@
                             <div class="col">
                                 <label for="buy_r_sell">Compra ou Venda:</label>
                                 <select name="buy_r_sell" id="buy_r_sell" class="form-control" required>
-                                    <option value="C">Compra</option>
-                                    <option value="V">Venda</option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="operation_type">Tipo de Operação:</label>
-                                <select name="operation_type" id="operation_type" class="form-control select2" required>
+                                    <option value="B">Compra</option>
+                                    <option value="S">Venda</option>
                                 </select>
                             </div>
                             <div class="col">
@@ -143,27 +136,6 @@
         </div>
     </div>
 
-    <!-- Delete Operation Modal -->
-    <div class="modal" id="DeleteOperationModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Operation Delete</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <h4>Are you sure want to delete this Operation?</h4>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="SubmitDeleteOperationForm">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('script')
@@ -182,7 +154,6 @@
                 ajax: '{{ route('get-operations') }}',
                 columns: [
                     {data: 'id'},
-                    {data: 'operation_type'},
                     {data: 'buy_r_sell'},
                     {data: 'stock'},
                     {data: 'operation_date'},
@@ -190,28 +161,18 @@
                     {data: 'cost'},
                     {data: 'irrf'},
                     {data: 'price'},
-                    {data: 'net_value'},
-                    {
-                        data: 'Actions',
-                        name: 'Actions',
-                        orderable: false,
-                        serachable: false,
-                        sClass: 'text-center'
-                    },
+                    {data: 'net_value'}
                 ]
             });
 
             $('body').on('click', '#getCreateOperationModal', function (e) {
 
                 $.ajax({
-                    url: '{{route('list-operationTypes')}}', success: function (result) {
-                        result.forEach(function (e, i) {
-                            $('#operation_type').append($('<option></option>').val(e.id).text(e.name));
-                        });
-                    }
-                });
-                $.ajax({
                     url: '{{route('list-stocks')}}', success: function (result) {
+                        if (!result.length) {
+                            alert("Necessário cadastrar uma ação!");
+                            window.location.href = '../stocks';
+                        }
                         result.forEach(function (e, i) {
                             $('#stock').append($('<option></option>').val(e.id).text(e.code));
                         });
@@ -219,6 +180,10 @@
                 });
                 $.ajax({
                     url: '{{route('list-brokers')}}', success: function (result) {
+                        if (!result.length) {
+                            alert("Necessário cadastrar uma corretora!");
+                            window.location.href = '../brokers';
+                        }
                         result.forEach(function (e, i) {
                             $('#broker').append($('<option></option>').val(e.id).text(e.name));
                         });
@@ -245,7 +210,6 @@
                         cost: $('#cost').val(),
                         irrf: $('#irrf').val(),
                         price: $('#price').val(),
-                        operation_type_id: $('#operation_type').val(),
                         stock_id: $('#stock').val(),
                         broker_id: $('#broker').val(),
                         buy_r_sell: $('#buy_r_sell').val(),
@@ -262,65 +226,6 @@
                             $('#CreateOperationModal').modal('hide');
                             location.reload();
                         }
-                    }
-                });
-            });
-
-            $('body').on('click', '#getEditOperationData', function (e) {
-                id = $(this).data('id');
-                window.location.href = 'operations/' + id + '/edit';
-            });
-
-            // Update article Ajax request.
-            $('#SubmitEditOperationForm').click(function (e) {
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "operations/" + id,
-                    method: 'PUT',
-                    data: {
-                        name: $('#editName').val(),
-                    },
-                    success: function (result) {
-                        if (result.errors) {
-                            $('.alert-danger').html('');
-                            $.each(result.errors, function (key, value) {
-                                $('.alert-danger').show();
-                                $('.alert-danger').append('<strong><li>' + value + '</li></strong>');
-                            });
-                        } else {
-                            $('.alert-danger').hide();
-                            $('.alert-success').show();
-                            $('.datatable').DataTable().ajax.reload();
-
-                            $('.alert-success').hide();
-                            $('#EditOperationModal').hide();
-                        }
-                    }
-                });
-            });
-
-            // Delete article Ajax request.
-            var deleteID;
-            $('body').on('click', '#getDeleteId', function () {
-                deleteID = $(this).data('id');
-                //e.preventDefault();
-                var id = deleteID;
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "operations/" + id,
-                    method: 'DELETE',
-                    success: function (result) {
-                        $('.datatable').DataTable().ajax.reload();
-                        $('#DeleteOperationModal').hide();
                     }
                 });
             });

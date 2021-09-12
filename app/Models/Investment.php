@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OperationType extends Model
+class Investment extends Model
 {
     use HasFactory;
 
-    protected $table = 'operation_types';
+    protected $table = 'investments';
     protected $guarded = array();
 
     public function getData()
     {
-        return static::orderBy('created_at', 'desc')->get();
+        return static::with(['users', 'stocks'])->orderBy('created_at', 'desc')->get();
     }
 
     public function storeData($input)
@@ -37,8 +37,19 @@ class OperationType extends Model
         return static::find($id)->delete();
     }
 
-    public function operations()
+    public function stocks()
     {
-        return $this->hasMany(Stock::class);
+        return $this->belongsTo(Stock::class, 'stock_id', 'id');
     }
+
+    public function brokers()
+    {
+        return $this->belongsTo(Broker::class, 'broker_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }

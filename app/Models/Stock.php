@@ -65,4 +65,8 @@ class Stock extends Model
         return $this->belongsTo(Sector::class, 'sector_id', 'id');
     }
 
+    public function operations()
+    {
+        return $this->hasMany(Operation::class);
+    }
 }

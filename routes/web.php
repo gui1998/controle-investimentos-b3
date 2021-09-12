@@ -77,4 +77,5 @@ Route::group(['middleware' => ['auth']], function () {
 // Route for get stocktypes for yajra post request.
     Route::get('get-operations', 'OperationController@getOperations')->name('get-operations');
 
+    Route::resource('investments', 'InvestmentController');
 });
