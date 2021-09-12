@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateOrUpdateInvestmentAction;
 use App\Models\Broker;
 use App\Models\Sector;
 use App\Models\Operation;
@@ -43,7 +44,7 @@ class OperationController extends Controller
                     return date('d/m/Y', strtotime($data->operation_date));
                 })
                 ->editColumn('buy_r_sell', function ($data) {
-                    return ($data->buy_r_sell == 'C') ? 'Compra' : "Venda";
+                    return ($data->buy_r_sell == 'B') ? 'Compra' : "Venda";
                 })
                 ->addColumn('user', function ($data) {
                     return $data->users->name;
@@ -107,7 +108,7 @@ class OperationController extends Controller
         $date = str_replace('/', '-', $date);
         $date = Carbon::parse($date)->timezone('America/Sao_Paulo');
 
-        $operation->storeData(
+        $operationCreated = $operation->storeData(
             array_merge(
                 $request->all(),
                 [
@@ -116,6 +117,8 @@ class OperationController extends Controller
                 ]
             )
         );
+
+        (new CreateOrUpdateInvestmentAction())->onQueue()->execute($operationCreated);
 
         return response()->json(['success' => 'Operation added successfully']);
     }

@@ -17,7 +17,8 @@ class CreateInvestmentsTable extends Migration
             $table->integer('id')->autoIncrement();
             $table->integer('stock_amount');
             $table->decimal('average_price', 20,2);
-            $table->foreignId('stock_id')->constrained();
+            $table->integer('stock_id')->unsigned()->unique();
+            $table->foreign('stock_id')->references('id')->on('stocks');
             $table->foreignId('broker_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent();

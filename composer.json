@@ -15,6 +15,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
+        "spatie/laravel-queueable-action": "^2.12",
         "ttskch/select2-bootstrap4-theme": "^1.5",
         "yajra/laravel-datatables-oracle": "^9.18"
     },

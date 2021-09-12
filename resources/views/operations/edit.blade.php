@@ -40,7 +40,8 @@
 
                                         </div>
                                         <div class="col">
-                                            <label for="price" class="font-weight-bold">Desconto:</label>
+                                            <label for="price" class="font-weight-bold">
+                                                Valor Bruto:</label>
                                             <input type="text"
                                                    class="form-control money @error('price') is-invalid @enderror"
                                                    name="price"
@@ -65,10 +66,10 @@
                                         <div class="col">
                                             <label for="buy_r_sell">Compra ou Venda:</label>
                                             <select name="buy_r_sell" id="buy_r_sell" class="form-control" required>
-                                                <option value="C" {{ $operation->buy_r_sell == 'C' ? 'selected' : '' }}>
+                                                <option value="B" {{ $operation->buy_r_sell == 'B' ? 'selected' : '' }}>
                                                     Compra
                                                 </option>
-                                                <option value="V" {{ $operation->buy_r_sell == 'V' ? 'selected' : '' }}>
+                                                <option value="S" {{ $operation->buy_r_sell == 'S' ? 'selected' : '' }}>
                                                     Venda
                                                 </option>
                                             </select>
