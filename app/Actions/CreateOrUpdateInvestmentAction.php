@@ -29,7 +29,10 @@ class CreateOrUpdateInvestmentAction
 
         $investment = new Investment();
 
-        $investmentData = $investment::query()->where('stock_id', $operation->stock_id)->first();
+        $investmentData = $investment::query()
+            ->where('stock_id', $operation->stock_id)
+            ->where('user_id', $operation->user_id)
+            ->first();
 
         $stock_amount = $operation->stock_amount;
         $average_price = $operation->price;
@@ -44,6 +47,9 @@ class CreateOrUpdateInvestmentAction
                 $stock_amount += $investmentData->stock_amount;
             } else {
                 $stock_amount = $investmentData->stock_amount - $stock_amount;
+                if($stock_amount <= 0){
+                    return $investment->deleteData($investmentData->id);
+                }
                 $average_price = $investmentData->average_price;
             }
         }

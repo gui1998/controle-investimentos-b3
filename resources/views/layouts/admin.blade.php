@@ -351,7 +351,7 @@
         });
 
         $('body').on('click', '.modelClose', function (e) {
-            $('select option').each(function (index, value) {
+            $('.select2 option').each(function (index, value) {
                 $(this).remove();
             });
 
@@ -372,21 +372,6 @@
             }
         });
         $('.money').mask("#################.##", {reverse: true});
-
-        //Verificar sessão
-        {{--setInterval(function () {--}}
-        {{--    const me = $.ajax({--}}
-        {{--        url: '{{route('me')}}',--}}
-        {{--        data: "check",--}}
-        {{--        success: function (response) {--}}
-        {{--        },--}}
-        {{--        error: function (response) {--}}
-        {{--            if (!response.name) {--}}
-        {{--                document.location.reload(true);--}}
-        {{--            }--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--}, 1000);--}}
     });
 
 </script>
