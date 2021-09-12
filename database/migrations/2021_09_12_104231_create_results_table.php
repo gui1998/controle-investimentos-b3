@@ -16,6 +16,7 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->decimal('value', 20,2);
+            $table->date('result_date')->default(\Carbon\Carbon::now());
             $table->foreignId('stock_id')->constrained();
             $table->foreignId('broker_id')->constrained();
             $table->foreignId('user_id')->constrained();

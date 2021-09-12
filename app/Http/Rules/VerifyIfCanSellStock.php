@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ImplicitRule;
 
 class VerifyIfCanSellStock implements ImplicitRule
 {
-    protected string $stock_amount;
+    private string $message;
 
     public function __construct()
     {
@@ -24,17 +24,21 @@ class VerifyIfCanSellStock implements ImplicitRule
             ->where('user_id', '=', $value['user_id'])
             ->first();
 
+        $this->message = "Não é possível vender, você não possui ações para venda!";
+
         if(blank($investmentData)){
             return false;
         }
 
         $stock_amount = $investmentData->stock_amount;
-        $this->stock_amount = $stock_amount;
+
+        $this->message =  "Não é possível vender, você possui somente $stock_amount ações!";
+
         return (($stock_amount - $value['stock_amount']) >=0);
     }
 
     public function message()
     {
-        return "Não é possível vender, você tem somente $this->stock_amount ações! ";
+        return $this->message;
     }
 }

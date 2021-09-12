@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateOrUpdateInvestmentAction;
+use App\Actions\CreateResultsAction;
 use App\Http\Rules\VerifyIfCanSellStock;
 use App\Models\Broker;
 use App\Models\Operation;
@@ -119,8 +120,9 @@ class OperationController extends Controller
             return response()->json(['errors' => [$Rule->message()]]);
         }
 
-        $operationCreated = $operation->storeData($datas);
+        $operationCreated = $operation->storeData($data);
 
+        (new CreateResultsAction())->onQueue()->execute($operationCreated);
         (new CreateOrUpdateInvestmentAction())->onQueue()->execute($operationCreated);
 
         return response()->json(['success' => 'Operation added successfully']);

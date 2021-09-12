@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Investment extends Model
+class Result extends Model
 {
     use HasFactory;
 
-    protected $table = 'investments';
+    protected $table = 'results';
     protected $guarded = array();
 
     public function getData()
