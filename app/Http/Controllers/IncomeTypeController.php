@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OperationType;
+use App\Models\IncomeType;
 use App\Models\StockType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class OperationTypeController extends Controller
+class IncomeTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,21 +19,21 @@ class OperationTypeController extends Controller
      */
     public function index()
     {
-        return view('operationTypes.index');
+        return view('incomeTypes.index');
     }
 
     /**
      * @param Request $request
-     * @param OperationType $operationType
+     * @param IncomeType $incomeType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOperationTypes(Request $request, OperationType $operationType)
+    public function getIncomeTypes(Request $request, IncomeType $incomeType)
     {
-        $data = $operationType->getData();
+        $data = $incomeType->getData();
         try {
             return DataTables::of($data)
                 ->addColumn('Actions', function ($data) {
-                    return '<button type="button" class="btn btn-success btn-sm" id="getEditOperationTypeData" data-id="' . $data->id . '">Editar</button>
+                    return '<button type="button" class="btn btn-success btn-sm" id="getEditIncomeTypeData" data-id="' . $data->id . '">Editar</button>
     <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Apagar</button>';
                 })
                 ->rawColumns(['Actions'])
@@ -50,7 +51,7 @@ class OperationTypeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, OperationType $operationType)
+    public function store(Request $request, IncomeType $incomeType)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -60,25 +61,25 @@ class OperationTypeController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $operationType->storeData($request->all());
+        $incomeType->storeData($request->all());
 
-        return response()->json(['success' => 'OperationType added successfully']);
+        return response()->json(['success' => 'IncomeType added successfully']);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\OperationType $operationType
+     * @param \App\Models\IncomeType $incomeType
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id)
     {
-        $operationType = new OperationType();
+        $incomeType = new IncomeType();
 
-        $operationType = $operationType->findData($id);
+        $incomeType = $incomeType->findData($id);
 
-        return view('operationTypes.edit', [
-            'operation_type' => $operationType,
+        return view('incomeTypes.edit', [
+            'income_type' => $incomeType,
         ]);
     }
 
@@ -87,7 +88,7 @@ class OperationTypeController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, OperationType $operationType)
+    public function update(Request $request, IncomeType $incomeType)
     {
         $validator = Validator::make($request->all(),
             [
@@ -101,33 +102,28 @@ class OperationTypeController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
-        $operationType->update($request->all());
+        $incomeType->update($request->all());
 
-        return redirect()->route('operationTypes.index');
+        return redirect()->route('incomeTypes.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\OperationType $operationType
+     * @param \App\Models\IncomeType $incomeType
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        $operationType = new OperationType;
-        $operationExists = OperationType::with('operations')->where('id', $id)->first();
+        $incomeType = new IncomeType;
+        $incomeType->deleteData($id);
 
-        if(!blank($operationExists->operations)){
-            return response()->json(['errors' => 'Tipo esta cadastrado em Operações!']);
-        };
-
-        $operationType->deleteData($id);
-
-        return response()->json(['success' => 'OperationType deleted successfully']);
+        return response()->json(['success' => 'IncomeType deleted successfully']);
     }
 
-    public function getListOperationTypes()
+    public function getListIncomeTypes()
     {
-        return OperationType::all()->toArray();
+        return User::all();
+        return IncomeType::all()->toArray();
     }
 }

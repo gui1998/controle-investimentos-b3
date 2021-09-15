@@ -80,4 +80,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('investments', 'InvestmentController');
 
     Route::resource('results', 'ResultController');
+    Route::get('list-results', 'ResultController@getListResults')->name('list-results');
 });

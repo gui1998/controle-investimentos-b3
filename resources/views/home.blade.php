@@ -329,7 +329,61 @@
 
     </div>
     <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('js/home/chart-area.js')}}"></script>
+    <script>
+        // Area Chart Example
+        var ctx = document.getElementById("myAreaChart");
+        var values = [];
+        var labels = [];
+        var chartColors = {
+            red: 'rgb(255, 99, 132)',
+            blue: 'rgb(54, 162, 235)'
+        };
+
+        $.ajax({
+            url: '{{route('list-results')}}', success: function (result) {
+
+                Object.values(result).forEach(function (e, i) {
+                    values.push(e.total);
+                    labels.push(e.month+'/'+e.year)
+                });
+
+                const colours = values.map((value) => value < 0 ? 'red' : value > 0 ? 'green': 'black');
+                // var myBarChart = new Chart(ctx, {
+                //     type: 'bar',
+                //     data: {
+                //         labels: labels,
+                //         datasets: [{
+                //             label: "Lucro/Prejuízo",
+                //             backgroundColor:colours,
+                //             hoverBackgroundColor: "#0e0a0a",
+                //             borderColor: "#000000",
+                //             data: values,
+                //         }],
+                //     }
+                // });
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        bezierCurve: false,
+                        datasets: [
+                            {
+                                data: values,
+                                label: "Lucro/Prejuízo dos últimos 6 meses",
+                                lineTension: 0,
+                                pointRadius: 4,
+                                pointHoverRadius: 10,
+                                borderColor: "rgba(120,125,234,0.6)",
+                                backgroundColor: colours,
+                                fill: false
+                            }
+                        ]
+                    }
+                });
+            }
+        });
+
+    </script>
     <script src="{{ asset('js/home/chart-bar.js')}}"></script>
     <script src="{{ asset('js/home/chart-pie.js')}}"></script>
 @endsection

@@ -345,14 +345,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //Adicionar select com busca
+        //Adicionar select com busca remover para evitar duplicar
         $('.select2').select2({
+            theme: 'bootstrap4',
+        });
+
+        //Adicionar select com busca
+        $('.select2-static').select2({
             theme: 'bootstrap4',
         });
 
         $('body').on('click', '.modelClose', function (e) {
             $('.select2 option').each(function (index, value) {
-                $(this).remove();
+                $(this).remove();//remover para evitar duplicar
             });
 
             $('.alert-danger').each(function (index, value) {

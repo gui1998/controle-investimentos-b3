@@ -721,7 +721,12 @@ input {
 }
 
 .navbar-nav {
-  z-index: 10;
+  z-index: 10 !important;
+}
+
+.page-item.active,
+.page-link {
+  z-index: 0 !important;
 }
 
 .body {

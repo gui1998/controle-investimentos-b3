@@ -114,7 +114,7 @@
                         <div class="row">
                             <div class="col">
                                 <label for="buy_r_sell">Compra ou Venda:</label>
-                                <select name="buy_r_sell" id="buy_r_sell" class="form-control" required>
+                                <select name="buy_r_sell" id="buy_r_sell" class="form-control select2-static" required>
                                     <option value="B">Compra</option>
                                     <option value="S">Venda</option>
                                 </select>

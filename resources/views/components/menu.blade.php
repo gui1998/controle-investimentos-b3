@@ -42,13 +42,6 @@
         <span>{{ __('Tipo de Rendimentos') }}</span></a>
 </li>
 
-<!-- Nav Item - Operation Types -->
-<li class="nav-item {{ Nav::isRoute('operationTypes') }}">
-    <a class="nav-link" href="{{ route('operationTypes.index') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>{{ __('Tipo de Operações') }}</span></a>
-</li>
-
 <!-- Nav Item - Brokers -->
 <li class="nav-item {{ Nav::isRoute('brokers') }}">
     <a class="nav-link" href="{{ route('brokers.index') }}">

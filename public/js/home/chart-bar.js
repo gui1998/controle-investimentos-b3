@@ -199,13 +199,7 @@ var myBarChart = new Chart(ctx, {
       xPadding: 15,
       yPadding: 15,
       displayColors: false,
-      caretPadding: 10,
-      callbacks: {
-        label: function label(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-        }
-      }
+      caretPadding: 10
     }
   }
 });
