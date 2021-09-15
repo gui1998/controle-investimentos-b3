@@ -46,11 +46,11 @@ class ResultController extends Controller
             ->get();
 
         $filteredArray = Arr::where($months, function ($value, $key) {
-            return ($key >= Carbon::now()->subMonths(6)->month) && ($key <= Carbon::now()->month);
+            return ($key >= Carbon::now()->subMonths(5)->month) && ($key <= Carbon::now()->month);
         });
 
         $resultData = [];
-        $monthFilled = Carbon::now()->subMonths(6)->month;
+        $monthFilled = Carbon::now()->subMonths(5)->month;
 
         $resultData = collect($filteredArray)->map(function ($value, $key) use ($resultData, $result, $monthFilled) {
             $resultfiltered = $result->where('month', $key)->first();
@@ -67,6 +67,7 @@ class ResultController extends Controller
                 "year" => (string)Carbon::now()->subMonths($monthFilled)->year,
                 "total" => "0"
             ];
+            $monthFilled ++;
 
         });
         return $resultData->toArray();

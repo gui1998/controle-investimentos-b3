@@ -331,9 +331,78 @@
     <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
     <script>
         // Area Chart Example
-        var ctx = document.getElementById("myAreaChart");
-        var values = [];
+        var barChart = document.getElementById("myAreaChart");
+        var sellArray = [];
+        var buyArray = [];
         var labels = [];
+        var type = [];
+        var chartColors = {
+            red: 'rgb(255, 99, 132)',
+            blue: 'rgb(54, 162, 235)'
+        };
+
+        $.ajax({
+            url: '{{route('buy-and-sell-statistics')}}', success: function (result) {
+                Object.values(result).forEach(function (e, i) {
+
+                    arrayData = e.map((val) => val);
+
+                    arrayData.forEach(function (valor, key) {
+                        if (valor.type === 'S') {
+                            sellArray.push(valor.total);
+                            labels.push(valor.month + '/' + valor.year)
+                        } else {
+                            buyArray.push(valor.total);
+                        }
+                    });
+                });
+
+                var data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Venda",
+                            backgroundColor: 'rgba(16,96,1,0.8)',
+                            data: sellArray
+                        },
+                        {
+                            label: "Compra",
+                            backgroundColor: 'rgba(248,3,3,0.67)',
+                            data: buyArray
+                        }
+                    ]
+                };
+
+                var myBarChart = new Chart(barChart, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        barValueSpacing: 1,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            enabled: true,
+                            mode: 'single',
+                            callbacks: {
+                                label: function (tooltipItems, data) {
+                                    return "R$ " + tooltipItems.yLabel;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+
+        var ctx2 = document.getElementById("myBarChart");
+        var values = [];
+        var lineLabels = [];
         var chartColors = {
             red: 'rgb(255, 99, 132)',
             blue: 'rgb(54, 162, 235)'
@@ -344,27 +413,14 @@
 
                 Object.values(result).forEach(function (e, i) {
                     values.push(e.total);
-                    labels.push(e.month+'/'+e.year)
+                    lineLabels.push(e.month + '/' + e.year)
                 });
 
-                const colours = values.map((value) => value < 0 ? 'red' : value > 0 ? 'green': 'black');
-                // var myBarChart = new Chart(ctx, {
-                //     type: 'bar',
-                //     data: {
-                //         labels: labels,
-                //         datasets: [{
-                //             label: "Lucro/Prejuízo",
-                //             backgroundColor:colours,
-                //             hoverBackgroundColor: "#0e0a0a",
-                //             borderColor: "#000000",
-                //             data: values,
-                //         }],
-                //     }
-                // });
-                var myChart = new Chart(ctx, {
+                const colours = values.map((value) => value < 0 ? 'red' : value > 0 ? 'green' : 'black');
+                var myChart = new Chart(ctx2, {
                     type: 'line',
                     data: {
-                        labels: labels,
+                        labels: lineLabels,
                         bezierCurve: false,
                         datasets: [
                             {
@@ -378,12 +434,31 @@
                                 fill: false
                             }
                         ]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 25,
+                                top: 25,
+                                bottom: 0
+                            }
+                        },
+                        tooltips: {
+                            enabled: true,
+                            mode: 'single',
+                            callbacks: {
+                                label: function (tooltipItems, data) {
+                                    return "R$ " + tooltipItems.yLabel;
+                                }
+                            }
+                        }
                     }
                 });
             }
         });
 
     </script>
-    <script src="{{ asset('js/home/chart-bar.js')}}"></script>
     <script src="{{ asset('js/home/chart-pie.js')}}"></script>
 @endsection

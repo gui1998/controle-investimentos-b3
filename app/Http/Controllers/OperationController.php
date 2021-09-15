@@ -11,6 +11,7 @@ use App\Models\Stock;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
@@ -70,12 +71,14 @@ class OperationController extends Controller
      */
     public function store(Request $request, Operation $operation)
     {
+
         $validator = Validator::make($request->all(),
             [
                 'operation_date' => 'required|date_format:d/m/Y',
-                'cost' => 'gt:0.00',
+                'cost' => 'gt:0.00|nullable',
                 'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
+                'irrf' => 'gt:0.00|nullable',
                 'stock_id' => 'required',
                 'buy_r_sell' => 'required|in:B,S',
             ],
@@ -158,9 +161,10 @@ class OperationController extends Controller
         $validator = Validator::make($request->all(),
             [
                 'operation_date' => 'required|date_format:d/m/Y',
-                'cost' => 'gt:0.00',
+                'cost' => 'gt:0.00|nullable',
                 'price' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
+                'irrf' => 'gt:0.00|nullable',
                 'stock_id' => 'required',
                 'buy_r_sell' => 'required|in:B,S',
             ],
@@ -207,5 +211,101 @@ class OperationController extends Controller
         $operation->deleteData($id);
 
         return response()->json(['success' => 'Operation deleted successfully']);
+    }
+
+    public function getBuyAndSellStatistics(Request $request)
+    {
+        $months = [
+            1 => 'Janeiro',
+            2 => 'Fevereiro',
+            3 => 'Março',
+            4 => 'Abril',
+            5 => 'Maio',
+            6 => 'Junho',
+            7 => 'Julho',
+            8 => 'Agosto',
+            9 => 'Setembro',
+            10 => 'Outubro',
+            11 => 'Novembro',
+            12 => 'Dezembro',
+        ];
+
+        $result = Operation::query()
+            ->where('user_id', $request->user('web')->id)
+            ->selectRaw('sum(price*stock_amount) as total, buy_r_sell, operation_date, extract(month FROM operation_date) as month, extract(year FROM operation_date) as year')
+            ->where('operation_date', '>=', Carbon::now()->subMonths(6))
+            ->groupByRaw('extract(month FROM operation_date), buy_r_sell, operation_date, extract(year FROM operation_date)')
+            ->orderBy('operation_date', 'asc')
+            ->orderBy('buy_r_sell', 'asc')
+            ->get();
+
+        $filteredArray = Arr::where($months, function ($value, $key) {
+            return ($key >= Carbon::now()->subMonths(5)->month) && ($key <= Carbon::now()->month);
+        });
+
+        $resultData = [];
+        $monthFilled = Carbon::now()->subMonths(5)->month;
+
+        $resultData = collect($filteredArray)->map(function ($value, $key) use ($resultData, $result, $monthFilled) {
+            $resultfiltered = $result->where('month', $key)->all();
+            $year = (string)Carbon::now()->subMonths($monthFilled)->year;
+            $data = [];
+            if (!blank($resultfiltered)) {
+                $arrayData = current($resultfiltered);
+                if ($arrayData->buy_r_sell == "B") {
+                    $data[] = [
+                        "month" => $value,
+                        "year" => $year,
+                        "total" => $arrayData->total,
+                        "type" => $arrayData->buy_r_sell
+                    ];
+                    $total = "0";
+                    $arrayData = next($resultfiltered);
+
+                    if($arrayData){
+                        $total = $arrayData->total;
+                    }
+
+                    $data[] = [
+                        "month" => $value,
+                        "year" => $year,
+                        "total" => $total,
+                        "type" => "S"
+                    ];
+                } else {
+                    $data[] = [
+                        "month" => $value,
+                        "year" => $year,
+                        "total" => "0",
+                        "type" => "B"
+                    ];
+
+                    $data[] = [
+                        "month" => $value,
+                        "year" => $year,
+                        "total" =>  $arrayData->total,
+                        "type" => "S"
+                    ];
+                }
+            }else{
+                $data[] = [
+                    "month" => $value,
+                    "year" => $year,
+                    "total" => "0",
+                    "type" => "B"
+                ];
+                $data[] = [
+                    "month" => $value,
+                    "year" => $year,
+                    "total" => "0",
+                    "type" => "S"
+                ];
+            }
+
+            $monthFilled++;
+
+            return $data;
+        });
+        return $resultData->toArray();
     }
 }
