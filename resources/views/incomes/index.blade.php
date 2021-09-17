@@ -24,9 +24,9 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Tipo</th>
-                                    <th>Ação</th>
+                                    <th>Ativo</th>
                                     <th>Data de Pagamento</th>
-                                    <th>Quantidade de Ações</th>
+                                    <th>Quantidade de Ativos</th>
                                     <th>Descontos</th>
                                     <th>Valor Bruto</th>
                                     <th>Valor Líquido Total</th>
@@ -75,7 +75,7 @@
                                        required>
                             </div>
                             <div class="col">
-                                <label for="stock_amount">Quantidade de Ações:</label>
+                                <label for="stock_amount">Quantidade de Ativos:</label>
                                 <input type="text"
                                        class="form-control positiveNumber"  placeholder="10" name="stock_amount" id="stock_amount"
                                        required>
@@ -104,7 +104,7 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <label for="stock">Ação:</label>
+                                <label for="stock">Ativo:</label>
                                 <select name="stock" id="stock" class="form-control select2" required>
                                 </select>
                             </div>
@@ -193,7 +193,7 @@
                 $.ajax({
                     url: '{{route('list-stocks')}}', success: function (result) {
                         if (!result.length) {
-                            alert("Necessário cadastrar uma ação!");
+                            alert("Necessário cadastrar um ativo!");
                             window.location.href = '../stocks';
                         }
                         result.forEach(function (e, i) {

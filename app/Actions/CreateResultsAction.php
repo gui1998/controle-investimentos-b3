@@ -40,8 +40,8 @@ class CreateResultsAction
             return null;
         }
 
-        $resultValue = $investmentData->stock_amount * $investmentData->average_price;
-        $sellValue = $operation->stock_amount * $operation->price;
+        $resultValue = $operation->stock_amount  * $investmentData->average_price;
+        $sellValue = $operation->stock_amount * ($operation->price - ($operation->irrf + $operation->cost));
 
         $data = [
             'user_id' => $operation->user_id,

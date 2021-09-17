@@ -141,7 +141,7 @@
             <!-- Bar Chart -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Lucro/Prejuízo dos últimos 6 meses</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-bar">
@@ -157,7 +157,7 @@
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Compra e Venda dos últimos 6 meses</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -130,7 +130,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Alejandro RH 2020</span>
+                    <span>Copyright &copy; Data Sirus 2021</span>
                 </div>
             </div>
         </footer>
@@ -234,6 +234,15 @@
             }
         });
         $('.money').mask("#################.##", {reverse: true});
+        $('.stockCode').mask('SSSS00', {
+            'translation': {
+                S: {pattern: /[A-Za-z]/},
+                0: {pattern: /[0-9]/}
+            }
+            ,onKeyPress: function (value, event) {
+                event.currentTarget.value = value.toUpperCase();
+            }
+        });
     });
 
 </script>

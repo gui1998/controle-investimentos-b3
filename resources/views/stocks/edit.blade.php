@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Ação</h1>
+                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Ativo</h1>
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
                         <form action="{{route('stocks.update', $stock->id)}}" method="POST"
@@ -22,7 +22,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <label class="font-weight-bold">Código:</label>
-                                        <input type="text" class="form-control @error('code') is-invalid @enderror"
+                                        <input type="text" class="form-control stockCode @error('code') is-invalid @enderror"
                                                name="code" value="{{ old('code', $stock->code) }}">
                                     </div>
                                     <div class="col">

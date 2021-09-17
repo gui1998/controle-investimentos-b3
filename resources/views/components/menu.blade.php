@@ -22,17 +22,17 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>{{ __('Setores') }}</span></a>
     </li>
-    <!-- Nav Item - Ação Types -->
+    <!-- Nav Item - Ativo Types -->
     <li class="nav-item {{ Nav::isRoute('stockTypes') }}">
         <a class="nav-link" href="{{ route('stockTypes.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>{{ __('Tipo de Ações') }}</span></a>
+            <span>{{ __('Tipo de Ativos') }}</span></a>
     </li>
-    <!-- Nav Item - Ação -->
+    <!-- Nav Item - Ativo -->
     <li class="nav-item {{ Nav::isRoute('stocks') }}">
         <a class="nav-link" href="{{ route('stocks.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>{{ __('Ações') }}</span></a>
+            <span>{{ __('Ativos') }}</span></a>
     </li>
 
     <!-- Nav Item - Rendimento Types -->

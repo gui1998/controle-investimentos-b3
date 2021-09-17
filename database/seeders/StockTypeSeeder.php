@@ -11,7 +11,6 @@ class StockTypeSeeder extends Seeder
     static $stockTypes = [
         'FII',
         'Ação',
-        'Opção',
         'ADR',
     ];
 

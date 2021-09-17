@@ -62,13 +62,15 @@ class StockController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'code' => 'required',
+                'code' => 'required|min:4|max:6',
                 'stock_type_id' => 'required',
                 'sector_id' => 'required',
                 'company_name' => 'required',
             ],
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',
+                'code.min' => 'O campo código deve conter no mínimo 4 caracteres.',
+                'code.max' => 'O campo código deve conter no máximo 5 caracteres.',
                 'stock_type_id.required' => 'O campo tipo é obrigatório.',
                 'company_name.required' => 'O campo Empresa  é obrigatório.',
                 'code.required' => 'O campo código é obrigatório.',
@@ -79,7 +81,7 @@ class StockController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $stock->storeData($request->all());
+        $stock->storeData(array_merge($request->all(), ["code" => strtoupper($request->get('code'))]));
 
         return response()->json(['success' => 'Stock added successfully']);
     }
@@ -113,7 +115,7 @@ class StockController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'code' => 'required',
+                'code' => 'required|min:4|max:6',
                 'sector_id' => 'required',
                 'stock_type_id' => 'required',
                 'company_name' => 'required',
@@ -121,6 +123,8 @@ class StockController extends Controller
             [
                 'sector_id.required' => 'O campo setor é obrigatório.',
                 'stock_type_id.required' => 'O campo tipo é obrigatório.',
+                'code.min' => 'O campo código deve conter no mínimo 4 caracteres.',
+                'code.max' => 'O campo código deve conter no máximo 5 caracteres.',
                 'company_name.required' => 'O campo Empresa  é obrigatório.',
                 'code.required' => 'O campo código é obrigatório.',
             ]
@@ -130,7 +134,7 @@ class StockController extends Controller
             return Redirect::back()->withErrors($validator);
         }
 
-        $stock->update($request->all());
+        $stock->update(array_merge($request->all(), ["code" => strtoupper($request->get('code'))]));
 
         return redirect()->route('stocks.index');
     }
@@ -147,7 +151,7 @@ class StockController extends Controller
         $operationExists = Stock::with('operations')->where('id', $id)->first();
 
         if(!blank($operationExists->operations)){
-            return response()->json(['errors' => 'Ação esta cadastrada em Operações!']);
+            return response()->json(['errors' => 'Ativo esta cadastrado em Operações!']);
         };
 
         $stock->deleteData($id);

@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-lg-12 mb-1">
                             <div class="text-center">
-                                <h5 class="font-weight-bold">Alejandro RH</h5>
+                                <h5 class="font-weight-bold">Data Sirus</h5>
                             </div>
                         </div>
                     </div>

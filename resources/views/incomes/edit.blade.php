@@ -30,7 +30,7 @@
                                                    value="{{ old('payment_date', \Carbon\Carbon::parse($income->payment_date)->format('d/m/Y')) }}">
                                         </div>
                                         <div class="col">
-                                            <label for="stock_amount">Quantidade de Ações:</label>
+                                            <label for="stock_amount">Quantidade de Ativos:</label>
                                             <input type="text"
                                                    class="form-control positiveNumber @error('stock_amount') is-invalid @enderror"  name="stock_amount"
                                                    id="stock_amount"
@@ -67,7 +67,7 @@
                                         </div>
 
                                         <div class="col">
-                                            <label for="stock_id">Ação:</label>
+                                            <label for="stock_id">Ativo:</label>
                                             <select name="stock_id" id="stock_id" class="form-control select2" required>
                                                 @foreach($stocks as $stock)
                                                     <option

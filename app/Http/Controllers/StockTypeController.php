@@ -118,7 +118,7 @@ class StockTypeController extends Controller
         $stockExists = StockType::with('stocks')->where('id', $id)->first();
 
         if(!blank($stockExists->stocks)){
-            return response()->json(['errors' => 'Setor esta cadastrado em Ações!']);
+            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
         };
 
         $stockType->deleteData($id);

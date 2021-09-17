@@ -24,7 +24,7 @@ class VerifyIfCanSellStock implements ImplicitRule
             ->where('user_id', '=', $value['user_id'])
             ->first();
 
-        $this->message = "Não é possível vender, você não possui ações para venda!";
+        $this->message = "Não é possível vender, você não possui ativos para venda!";
 
         if(blank($investmentData)){
             return false;
@@ -32,7 +32,7 @@ class VerifyIfCanSellStock implements ImplicitRule
 
         $stock_amount = $investmentData->stock_amount;
 
-        $this->message =  "Não é possível vender, você possui somente $stock_amount ações!";
+        $this->message =  "Não é possível vender, você possui somente $stock_amount ativos!";
 
         return (($stock_amount - $value['stock_amount']) >=0);
     }

@@ -12,10 +12,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            {{ __('Tipos de Ações') }}
+                            {{ __('Tipos de Ativos') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateStockTypeModal">
-                                Criar Tipo de Ação
+                                Criar Tipo de Ativo
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -37,13 +37,13 @@
 @endsection
 
 @section('modal')
-    <!-- Criar Tipo de Ação Modal -->
+    <!-- Criar Tipo de Ativo Modal -->
     <div class="modal" id="CreateStockTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Criar Tipo de Ação</h4>
+                    <h4 class="modal-title">Criar Tipo de Ativo</h4>
                     <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
@@ -54,7 +54,7 @@
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <strong>Success!</strong>Tipo de Ativo Foi adicionado(a) com sucesso.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <!-- Edit Tipo de Ação Modal -->
+    <!-- Edit Tipo de Ativo Modal -->
     <div class="modal" id="EditStockTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -85,7 +85,7 @@
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <strong>Success!</strong>Tipo de Ativo Foi adicionado(a) com sucesso.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,7 +115,7 @@
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <strong>Success!</strong>Tipo de Ativo Foi adicionado(a) com sucesso.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>

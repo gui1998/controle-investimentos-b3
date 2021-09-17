@@ -12,10 +12,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            {{ __('Ação Listagem') }}
+                            {{ __('Ativo Listagem') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateStockModal">
-                                Criar Ação
+                                Criar Ativo
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -40,13 +40,13 @@
 @endsection
 
 @section('modal')
-    <!-- Criar Ação Modal -->
+    <!-- Criar Ativo Modal -->
     <div class="modal" id="CreateStockModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Ação Criar</h4>
+                    <h4 class="modal-title">Ativo Criar</h4>
                     <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
@@ -57,7 +57,7 @@
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Ação Foi adicionado(a) com sucesso.
+                        <strong>Success!</strong>Ativo Foi adicionado(a) com sucesso.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -66,7 +66,7 @@
                         <div class="col">
                             <label for="code">Código:</label>
                             <input type="text"
-                                   class="form-control" placeholder="BBDC4" maxlength="5" name="code" id="code"
+                                   class="form-control stockCode" placeholder="BBDC4" name="code" id="code"
                                    required>
                         </div>
                         <div class="col">
@@ -101,7 +101,7 @@
     </div>
 
 
-    <!-- Delete Ação Modal -->
+    <!-- Delete Ativo Modal -->
     <div class="modal" id="DeleteStockModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -113,7 +113,7 @@
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Ação Foi adicionado(a) com sucesso.
+                        <strong>Success!</strong>Ativo Foi adicionado(a) com sucesso.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>

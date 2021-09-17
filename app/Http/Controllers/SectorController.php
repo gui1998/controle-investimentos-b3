@@ -121,7 +121,7 @@ class SectorController extends Controller
         $stockExists = Sector::with('stocks')->where('id', $id)->first();
 
         if(!blank($stockExists->stocks)){
-            return response()->json(['errors' => 'Setor esta cadastrado em Ações!']);
+            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
         };
 
         $sector->deleteData($id);

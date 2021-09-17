@@ -96,9 +96,9 @@ class OperationController extends Controller
                 'code.required' => 'O campo código é obrigatório.',
                 'buy_r_sell.required' => 'O campo Compra ou Venda é obrigatório.',
                 'buy_r_sell.in' => 'O campo Compra ou Venda deve conter B ou S.',
-                'stock_id.required' => 'O campo ação é obrigatório.',
-                'stock_amount.required' => 'O campo quantidade de ações é obrigatório.',
-                'stock_amount.gt' => 'O campo quantidade de ações deve ser maior que 0.',
+                'stock_id.required' => 'O campo ativo é obrigatório.',
+                'stock_amount.required' => 'O campo quantidade de ativos é obrigatório.',
+                'stock_amount.gt' => 'O campo quantidade de ativos deve ser maior que 0.',
             ]
         );
 
@@ -182,9 +182,9 @@ class OperationController extends Controller
                 'code.required' => 'O campo código é obrigatório.',
                 'buy_r_sell.required' => 'O campo Compra ou Venda é obrigatório.',
                 'buy_r_sell.in' => 'O campo Compra ou Venda deve conter B ou S.',
-                'stock_id.required' => 'O campo ação é obrigatório.',
-                'stock_amount.required' => 'O campo quantidade de ações é obrigatório.',
-                'stock_amount.gt' => 'O campo quantidade de ações deve ser maior que 0.',
+                'stock_id.required' => 'O campo ativo é obrigatório.',
+                'stock_amount.required' => 'O campo quantidade de ativos é obrigatório.',
+                'stock_amount.gt' => 'O campo quantidade de ativos deve ser maior que 0.',
             ]
         );
 

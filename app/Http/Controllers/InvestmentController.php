@@ -44,11 +44,11 @@ class InvestmentController extends Controller
             [
                 'average_price.required' => 'O campo preço médio é obrigatório.',
                 'average_price.gt' => 'O campo preço médio deve ser maior que 0.',
-                'stock_id.required' => 'O campo ação é obrigatório.',
-                'stock_id.unique' => 'O campo ação é único por usuário.',
+                'stock_id.required' => 'O campo ativo é obrigatório.',
+                'stock_id.unique' => 'O campo ativo é único por usuário.',
                 'broker.required' => 'O campo corretora é obrigatório.',
-                'stock_amount.required' => 'O campo quantidade de ações é obrigatório.',
-                'stock_amount.gt' => 'O campo quantidade de ações deve ser maior que 0.',
+                'stock_amount.required' => 'O campo quantidade de ativos é obrigatório.',
+                'stock_amount.gt' => 'O campo quantidade de ativos deve ser maior que 0.',
             ]
         );
 
@@ -80,11 +80,11 @@ class InvestmentController extends Controller
             [
                 'average_price.required' => 'O campo preço médio é obrigatório.',
                 'average_price.gt' => 'O campo preço médio deve ser maior que 0.',
-                'stock_id.required' => 'O campo ação é obrigatório.',
-                'stock_id.unique' => 'O campo ação é único por usuário.',
+                'stock_id.required' => 'O campo ativo é obrigatório.',
+                'stock_id.unique' => 'O campo ativo é único por usuário.',
                 'broker.required' => 'O campo corretora é obrigatório.',
-                'stock_amount.required' => 'O campo quantidade de ações é obrigatório.',
-                'stock_amount.gt' => 'O campo quantidade de ações deve ser maior que 0.',
+                'stock_amount.required' => 'O campo quantidade de ativos é obrigatório.',
+                'stock_amount.gt' => 'O campo quantidade de ativos deve ser maior que 0.',
             ]
         );
 

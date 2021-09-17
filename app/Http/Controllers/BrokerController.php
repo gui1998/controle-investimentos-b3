@@ -121,7 +121,7 @@ class BrokerController extends Controller
 //        $stockExists = Broker::with('operation')->where('id', $id)->first();
 //
 //        if(!blank($stockExists->stocks)){
-//            return response()->json(['errors' => 'Setor esta cadastrado em Ações!']);
+//            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
 //        };
 
         $broker->deleteData($id);

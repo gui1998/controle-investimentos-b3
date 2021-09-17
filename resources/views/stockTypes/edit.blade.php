@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Tipo de Ação</h1>
+                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Tipo de Ativo</h1>
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
                         <form action="{{route('stockTypes.update', $stock_type->id)}}" method="POST"
