@@ -15,7 +15,7 @@
                             {{ __('Tipos de Ações') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateStockTypeModal">
-                                Create StockType
+                                Criar Tipo de Ação
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -37,7 +37,7 @@
 @endsection
 
 @section('modal')
-    <!-- Create StockType Modal -->
+    <!-- Criar Tipo de Ação Modal -->
     <div class="modal" id="CreateStockTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,13 +49,13 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>StockType was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -66,27 +66,27 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="SubmitCreateStockTypeForm">Create</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="SubmitCreateStockTypeForm">Criar</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit StockType Modal -->
+    <!-- Edit Tipo de Ação Modal -->
     <div class="modal" id="EditStockTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>StockType was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -97,33 +97,33 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="SubmitEditStockTypeForm">Update</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Sector Modal -->
+    <!-- Delete Setor Modal -->
     <div class="modal" id="DeleteStockTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>StockType was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Tipo de Ação Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
                 $('div.modal').hide();
             });
 
-            // Create article Ajax request.
+            // Criar article Ajax request.
             $('#SubmitCreateStockTypeForm').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

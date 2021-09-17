@@ -12,10 +12,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            {{ __('Sector Listing') }}
+                            {{ __('Setor Listagem') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateSectorModal">
-                                Create Sector
+                                Criar Setor
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -37,25 +37,25 @@
 @endsection
 
 @section('modal')
-    <!-- Create Sector Modal -->
+    <!-- Criar Setor Modal -->
     <div class="modal" id="CreateSectorModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Sector Create</h4>
+                    <h4 class="modal-title">Setor Criar</h4>
                     <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Sector was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Setor Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -66,34 +66,34 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="SubmitCreateSectorForm">Create</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="SubmitCreateSectorForm">Criar</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Sector Modal -->
+    <!-- Delete Setor Modal -->
     <div class="modal" id="DeleteSectorModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Sector was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Setor Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
                 $('div.modal').hide();
             });
 
-            // Create article Ajax request.
+            // Criar article Ajax request.
             $('#SubmitCreateSectorForm').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

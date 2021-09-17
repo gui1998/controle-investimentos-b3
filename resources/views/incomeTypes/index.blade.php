@@ -15,7 +15,7 @@
                             {{ __('Tipos de Rendimentos') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateIncomeTypeModal">
-                                Create IncomeType
+                                Criar Tipo de Rendimento
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -37,7 +37,7 @@
 @endsection
 
 @section('modal')
-    <!-- Create IncomeType Modal -->
+    <!-- Criar Tipo de Rendimento Modal -->
     <div class="modal" id="CreateIncomeTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,13 +49,13 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>IncomeType was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Tipo de Rendimento Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -66,27 +66,27 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="SubmitCreateIncomeTypeForm">Create</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="SubmitCreateIncomeTypeForm">Criar</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit IncomeType Modal -->
+    <!-- Edit Tipo de Rendimento Modal -->
     <div class="modal" id="EditIncomeTypeModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>IncomeType was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Tipo de Rendimento Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -97,7 +97,7 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="SubmitEditIncomeTypeForm">Update</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -139,7 +139,7 @@
                 $('div.modal').hide();
             });
 
-            // Create income type Ajax request.
+            // Criar income type Ajax request.
             $('#SubmitCreateIncomeTypeForm').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

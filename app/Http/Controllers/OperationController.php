@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
@@ -262,7 +263,7 @@ class OperationController extends Controller
                     $total = "0";
                     $arrayData = next($resultfiltered);
 
-                    if($arrayData){
+                    if ($arrayData) {
                         $total = $arrayData->total;
                     }
 
@@ -283,11 +284,11 @@ class OperationController extends Controller
                     $data[] = [
                         "month" => $value,
                         "year" => $year,
-                        "total" =>  $arrayData->total,
+                        "total" => $arrayData->total,
                         "type" => "S"
                     ];
                 }
-            }else{
+            } else {
                 $data[] = [
                     "month" => $value,
                     "year" => $year,
@@ -308,4 +309,59 @@ class OperationController extends Controller
         });
         return $resultData->toArray();
     }
+
+
+    public function getIrrfStatistics(Request $request)
+    {
+        $months = [
+            1 => 'Janeiro',
+            2 => 'Fevereiro',
+            3 => 'Março',
+            4 => 'Abril',
+            5 => 'Maio',
+            6 => 'Junho',
+            7 => 'Julho',
+            8 => 'Agosto',
+            9 => 'Setembro',
+            10 => 'Outubro',
+            11 => 'Novembro',
+            12 => 'Dezembro',
+        ];
+
+        $result = Operation::query()
+            ->where('user_id', $request->user('web')->id)
+            ->selectRaw('sum(irrf*stock_amount) as total, operation_date, extract(month FROM operation_date) as month, extract(year FROM operation_date) as year')
+            ->where('operation_date', '>=', Carbon::now()->subMonths(6))
+            ->groupByRaw('extract(month FROM operation_date), operation_date, extract(year FROM operation_date)')
+            ->orderBy('operation_date', 'asc')
+            ->get();
+
+        $filteredArray = Arr::where($months, function ($value, $key) {
+            return ($key >= Carbon::now()->subMonths(5)->month) && ($key <= Carbon::now()->month);
+        });
+
+        $resultData = [];
+        $monthFilled = Carbon::now()->subMonths(5)->month;
+
+        $resultData = collect($filteredArray)->map(function ($value, $key) use ($resultData, $result, $monthFilled) {
+            $resultfiltered = $result->where('month', $key)->first();
+
+            if (!blank($resultfiltered)) {
+                return [
+                    "month" => $value,
+                    "year" => $resultfiltered->year,
+                    "total" => (blank($resultfiltered->total)) ? "0" : $resultfiltered->total,
+                ];
+            }
+            return [
+                "month" => $value,
+                "year" => (string)Carbon::now()->subMonths($monthFilled)->year,
+                "total" => "0"
+            ];
+            $monthFilled++;
+
+        });
+        return $resultData->toArray();
+    }
+
 }

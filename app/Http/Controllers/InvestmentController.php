@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Investment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -60,8 +61,8 @@ class InvestmentController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
-     * @return JsonResponse
+     * @param Investment $investment
+     * @return Investment|JsonResponse
      */
     public function update(Request $request, Investment $investment)
     {
@@ -108,5 +109,30 @@ class InvestmentController extends Controller
         $investment->deleteData($id);
 
         return response(['success' => 'Investment deleted successfully'], 200);
+    }
+
+    public function getSectorsStatistics(Request $request)
+    {
+        $resultData =  DB::table('investments')
+            ->join('stocks','stocks.id', '=', 'investments.stock_id')
+            ->join('sectors','sectors.id', '=', 'stocks.sector_id')
+            ->selectRaw("sum(investments.stock_amount * investments.average_price) as total, sectors.name")
+            ->groupBy('sectors.name')
+            ->get();
+
+        return $resultData->toArray();
+
+    }
+
+    public function getTypesStatistics(Request $request)
+    {
+        $resultData =  DB::table('investments')
+            ->join('stocks','stocks.id', '=', 'investments.stock_id')
+            ->join('stock_types','stock_types.id', '=', 'stocks.stock_type_id')
+            ->selectRaw("sum(investments.stock_amount * investments.average_price) as total, stock_types.name")
+            ->groupBy('stock_types.name')
+            ->get();
+
+        return $resultData->toArray();
     }
 }

@@ -12,10 +12,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            {{ __('Operation Listing') }}
+                            {{ __('Operação Listagem') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateOperationModal">
-                                Create Operation
+                                Criar Operação
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -43,25 +43,25 @@
 @endsection
 
 @section('modal')
-    <!-- Create Operation Modal -->
+    <!-- Criar Operação Modal -->
     <div class="modal" id="CreateOperationModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Operation Create</h4>
+                    <h4 class="modal-title">Operação Criar</h4>
                     <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Operation was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Operação Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -127,8 +127,8 @@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="SubmitCreateOperationForm">Create</button>
-                            <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="SubmitCreateOperationForm">Criar</button>
+                            <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                 $('#CreateOperationModal').show();
             });
 
-            // Create article Ajax request.
+            // Criar article Ajax request.
             $('#SubmitCreateOperationForm').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

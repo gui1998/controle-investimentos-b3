@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Setor</h1>
+                <h1 class="h3 mb-3 text-gray-800 font-weight-bold text-center">Editar Tipo de Ação</h1>
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
                         <form action="{{route('stockTypes.update', $stock_type->id)}}" method="POST"
@@ -33,9 +33,10 @@
                                     @endforeach
                                 @endif
                             </div>
-
-                            <button type="submit" class="btn btn-danger btn-sm">Update</button>
-
+                            <div style="text-align: right;">
+                                <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+                                <button type="button" class="btn btn-danger btn-sm goBack">Voltar</button>
+                            </div>
                         </form>
                     </div>
                 </div>

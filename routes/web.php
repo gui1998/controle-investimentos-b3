@@ -77,8 +77,11 @@ Route::group(['middleware' => ['auth']], function () {
 // Route for get stocktypes for yajra post request.
     Route::get('get-operations', 'OperationController@getOperations')->name('get-operations');
     Route::get('buy-and-sell-statistics', 'OperationController@getBuyAndSellStatistics')->name('buy-and-sell-statistics');
+    Route::get('irrf-statistics', 'OperationController@getIrrfStatistics')->name('irrf-statistics');
 
     Route::resource('investments', 'InvestmentController');
+    Route::get('sectors-statistics', 'InvestmentController@getSectorsStatistics')->name('sectors-statistics');
+    Route::get('types-statistics', 'InvestmentController@getTypesStatistics')->name('types-statistics');
 
     Route::resource('results', 'ResultController');
     Route::get('list-results', 'ResultController@getListResults')->name('list-results');

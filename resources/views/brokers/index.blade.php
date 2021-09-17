@@ -12,10 +12,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            {{ __('Broker Listing') }}
+                            {{ __('Corretora Listagem') }}
                             <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"
                                     id="getCreateBrokerModal">
-                                Create Broker
+                                Criar Corretora
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -37,25 +37,25 @@
 @endsection
 
 @section('modal')
-    <!-- Create Broker Modal -->
+    <!-- Criar Corretora Modal -->
     <div class="modal" id="CreateBrokerModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Broker Create</h4>
+                    <h4 class="modal-title">Corretora Criar</h4>
                     <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Broker was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Corretora Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -66,34 +66,34 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="SubmitCreateBrokerForm">Create</button>
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="SubmitCreateBrokerForm">Criar</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Broker Modal -->
+    <!-- Delete Corretora Modal -->
     <div class="modal" id="DeleteBrokerModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                        <strong>Success!</strong>Broker was added successfully.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>Success!</strong>Corretora Foi adicionado(a) com sucesso.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
                 $('div.modal').hide();
             });
 
-            // Create article Ajax request.
+            // Criar article Ajax request.
             $('#SubmitCreateBrokerForm').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

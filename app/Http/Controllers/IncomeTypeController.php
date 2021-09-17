@@ -123,7 +123,6 @@ class IncomeTypeController extends Controller
 
     public function getListIncomeTypes()
     {
-        return User::all();
         return IncomeType::all()->toArray();
     }
 }
