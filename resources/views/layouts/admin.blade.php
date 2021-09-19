@@ -48,28 +48,9 @@
             <div class="sidebar-brand-text mx-3">Controle de Investimentos</div>
         </a>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
 
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item {{ Nav::isRoute('home') }}">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>{{ __('Dashboard') }}</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-
-        <x-menu/>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <div class="navbar-collapse" id="navbarResponsive">
+            <x-menu/>
         </div>
 
     </ul>

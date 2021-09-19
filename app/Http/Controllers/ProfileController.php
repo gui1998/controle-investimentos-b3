@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile')->withSuccess('Profile updated successfully.');
+        return redirect()->route('profile')->withSuccess('Perfil atualizado com sucesso!');
     }
 
     public function me()

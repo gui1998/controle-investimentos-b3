@@ -19,6 +19,13 @@ input {
 .navbar-nav{
     z-index: 10 !important;
 }
+.sidebar.toggled {
+    width: unset !important;
+}
+
+.sidebar {
+    position: sticky !important;
+}
 
 .page-item.active, .page-link{
     z-index: 0 !important;
