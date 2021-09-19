@@ -180,6 +180,14 @@
                     }
                 });
                 $('#CreateStockModal').show();
+                $('#CreateStockModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateStockModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             $('body').on('click', '.modelClose', function (e) {

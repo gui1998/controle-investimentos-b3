@@ -130,6 +130,14 @@
 
             $('body').on('click', '#getCreateBrokerModal', function (e) {
                 $('#CreateBrokerModal').show();
+                $('#CreateBrokerModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateBrokerModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             $('body').on('click', '.modelClose', function (e) {

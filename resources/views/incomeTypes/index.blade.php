@@ -133,6 +133,14 @@
 
             $('body').on('click', '#getCreateIncomeTypeModal', function (e) {
                 $('#CreateIncomeTypeModal').show();
+                $('#CreateIncomeTypeModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateIncomeTypeModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             $('body').on('click', '.modelClose', function (e) {

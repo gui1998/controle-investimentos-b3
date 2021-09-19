@@ -158,6 +158,14 @@
 
             $('body').on('click', '#getCreateStockTypeModal', function (e) {
                 $('#CreateStockTypeModal').show();
+                $('#CreateStockTypeModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateStockTypeModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             $('body').on('click', '.modelClose', function (e) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Operation;
 use App\Models\Sector;
 use App\Models\Income;
 use App\Models\IncomeType;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -77,7 +79,7 @@ class IncomeController extends Controller
         $validator = Validator::make($request->all(),
             [
                 'payment_date' => 'required|date_format:d/m/Y',
-                'discount' => 'required|gt:0.00',
+                'discount' => 'nullable|gt:0.00',
                 'total' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
@@ -147,7 +149,7 @@ class IncomeController extends Controller
         $validator = Validator::make($request->all(),
             [
                 'payment_date' => 'required|date_format:d/m/Y',
-                'discount' => 'required|gt:0.00',
+                'discount' => 'nullable|gt:0.00',
                 'total' => 'required|gt:0.00',
                 'stock_amount' => 'required|gt:0',
                 'stock_id' => 'required',
@@ -193,5 +195,60 @@ class IncomeController extends Controller
         $income->deleteData($id);
 
         return response()->json(['success' => 'Income deleted successfully']);
+    }
+
+
+    public function getIncomeStatistics(Request $request)
+    {
+        $months = [
+            1 => 'Janeiro',
+            2 => 'Fevereiro',
+            3 => 'Março',
+            4 => 'Abril',
+            5 => 'Maio',
+            6 => 'Junho',
+            7 => 'Julho',
+            8 => 'Agosto',
+            9 => 'Setembro',
+            10 => 'Outubro',
+            11 => 'Novembro',
+            12 => 'Dezembro',
+        ];
+
+        $monthParam = Carbon::now()->subMonths(5);
+        $result = Income::query()
+            ->where('user_id', $request->user('web')->id)
+            ->selectRaw('sum((total - coalesce(discount, 0)) * stock_amount) as total, payment_date, extract(month FROM payment_date) as month, extract(year FROM payment_date) as year')
+            ->where('payment_date', '>=', $monthParam)
+            ->groupByRaw('extract(month FROM payment_date), payment_date, extract(year FROM payment_date)')
+            ->orderBy('payment_date', 'asc')
+            ->get();
+
+        $filteredArray = Arr::where($months, function ($value, $key) use($monthParam){
+            return ($key >= $monthParam->month) && ($key <= Carbon::now()->month);
+        });
+
+        $resultData = [];
+        $monthFilled = $monthParam->month;
+
+        $resultData = collect($filteredArray)->map(function ($value, $key) use ($resultData, $result, $monthFilled) {
+            $resultfiltered = $result->where('month', $key)->first();
+
+            if (!blank($resultfiltered)) {
+                return [
+                    "month" => $value,
+                    "year" => $resultfiltered->year,
+                    "total" => (blank($resultfiltered->total)) ? "0" : $resultfiltered->total,
+                ];
+            }
+            return [
+                "month" => $value,
+                "year" => (string)Carbon::now()->subMonths($monthFilled)->year,
+                "total" => "0"
+            ];
+            $monthFilled++;
+
+        });
+        return $resultData->toArray();
     }
 }

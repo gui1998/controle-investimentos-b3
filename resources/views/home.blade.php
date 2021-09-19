@@ -61,9 +61,9 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Irrf Devido do mês
+                                Rendimentos do mês
                             </div>
-                            <div id="irrfResult" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div id="incomeResult" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                         </div>
                     </div>
                 </div>
@@ -437,17 +437,17 @@
 
         });
 
-        var irrfValues = []
+        var incomeValues = []
 
         $.ajax({
-            url: '{{route('irrf-statistics')}}', success: function (result) {
+            url: '{{route('income-statistics')}}', success: function (result) {
                 Object.values(result).forEach(function (e, i) {
-                    irrfValues.push(e.total);
+                    incomeValues.push(e.total);
                 });
 
-                ultimo = irrfValues.pop()
+                ultimo = incomeValues.pop()
 
-                $('#irrfResult').text(ultimo.toLocaleString('pt-BR', {
+                $('#incomeResult').text(ultimo.toLocaleString('pt-BR', {
                     maximumFractionDigits: 2,
                     style: 'currency',
                     currency: 'BRL',

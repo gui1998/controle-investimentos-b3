@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('incomes', 'IncomeController');
 // Route for get stocktypes for yajra post request.
     Route::get('get-incomes', 'IncomeController@getIncomes')->name('get-incomes');
+    Route::get('income-statistics', 'IncomeController@getIncomeStatistics')->name('income-statistics');
 
 // Resource Route for operations.
     Route::resource('operations', 'OperationController');

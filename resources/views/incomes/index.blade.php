@@ -202,6 +202,14 @@
                     }
                 });
                 $('#CreateIncomeModal').show();
+                $('#CreateIncomeModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateIncomeModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             // Criar article Ajax request.

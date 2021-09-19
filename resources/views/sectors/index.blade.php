@@ -130,6 +130,14 @@
 
             $('body').on('click', '#getCreateSectorModal', function (e) {
                 $('#CreateSectorModal').show();
+                $('#CreateSectorModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateSectorModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             $('body').on('click', '.modelClose', function (e) {

@@ -17,7 +17,7 @@ class CreateIncomesTable extends Migration
             $table->integer('id')->autoIncrement();
             $table->date('payment_date')->default(\Carbon\Carbon::now());
             $table->integer('stock_amount');
-            $table->decimal('discount');
+            $table->decimal('discount')->nullable();
             $table->decimal('total');
 
             $table->foreignId('stock_id')->constrained('stocks');

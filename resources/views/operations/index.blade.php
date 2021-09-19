@@ -190,6 +190,14 @@
                     }
                 });
                 $('#CreateOperationModal').show();
+                $('#CreateOperationModal').modal({
+                    keyboard: false,
+                    show: true
+                });
+                // Jquery draggable
+                $('#CreateOperationModal').draggable({
+                    handle: ".modal-header"
+                });
             });
 
             // Criar article Ajax request.
