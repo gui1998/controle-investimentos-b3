@@ -457,13 +457,14 @@
 
             }});
 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 13)];
-            }
-            return color;
+
+        function getRandomColor(opacidade = 1) {
+            let r = Math.random() * 255;
+            let g = Math.random() * 255;
+            let b = Math.random() * 255;
+
+            return `rgba(${r}, ${g}, ${b}, ${opacidade})`;
         }
+
     </script>
 @endsection

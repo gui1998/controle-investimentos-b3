@@ -69,4 +69,9 @@ class Stock extends Model
     {
         return $this->hasMany(Operation::class);
     }
+
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+    }
 }

@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sector;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class SectorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('sectors.index');
     }
@@ -32,8 +38,8 @@ class SectorController extends Controller
         try {
             return DataTables::of($data)
                 ->addColumn('Actions', function ($data) {
-                    return '<button type="button" class="btn btn-success btn-sm" id="getEditSectorData" data-id="' . $data->id . '">Edit</button>
-    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                    return '<button type="button" class="btn btn-success btn-sm" id="getEditSectorData" data-id="' . $data->id . '">Editar</button>
+    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Deletar</button>';
                 })
                 ->rawColumns(['Actions'])
                 ->make(true);
@@ -50,6 +56,12 @@ class SectorController extends Controller
      */
     public function store(Request $request, Sector $sector)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if(!$authorize){
+            return response()->json(['errors' => ["message"=>"Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -69,8 +81,14 @@ class SectorController extends Controller
      * @param \App\Models\Sector $sector
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if(!$authorize){
+            return redirect()->route('sectors.index');
+        }
+
         $sector = new Sector;
         $data = $sector->findData($id);
 
@@ -87,6 +105,12 @@ class SectorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if(!$authorize){
+            return response()->json(['errors' => ["message"=>"Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -98,10 +122,10 @@ class SectorController extends Controller
         $sector = new Sector;
         $sector->updateData($id, $request->all());
 
-        if($sector){
+        if ($sector) {
             //redirect dengan pesan sukses
             return redirect()->route('sectors.index')->with(['success' => 'Data Berhasil Diupdate!']);
-        }else{
+        } else {
             //redirect dengan pesan error
             return redirect()->route('sectors.index')->with(['error' => 'Data Gagal Diupdate!']);
         }
@@ -114,13 +138,19 @@ class SectorController extends Controller
      * @param \App\Models\Sector $sector
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if(!$authorize){
+            return redirect()->route('sectors.index');
+        }
+
         $sector = new Sector;
 
         $stockExists = Sector::with('stocks')->where('id', $id)->first();
 
-        if(!blank($stockExists->stocks)){
+        if (!blank($stockExists->stocks)) {
             return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
         };
 

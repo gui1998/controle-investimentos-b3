@@ -12,6 +12,7 @@ class StockTypeSeeder extends Seeder
         'FII',
         'Ação',
         'ADR',
+        'ETF',
     ];
 
     /**

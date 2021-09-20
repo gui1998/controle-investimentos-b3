@@ -10,6 +10,11 @@ use Illuminate\Support\Arr;
 
 class ResultController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse
@@ -18,19 +23,6 @@ class ResultController extends Controller
     {
         return response()->json(Result::all()->where('user_id', $request->user('web')->id));
     }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $result = new Result;
-        $result->deleteData($id);
-
-        return response(['success' => 'Result deleted successfully'], 200);
-    }
-
 
     public function getListResults(Request $request)
     {
@@ -79,7 +71,7 @@ class ResultController extends Controller
                 "year" => (string)Carbon::now()->subMonths($monthFilled)->year,
                 "total" => "0"
             ];
-            $monthFilled ++;
+            $monthFilled++;
 
         });
         return $resultData->toArray();

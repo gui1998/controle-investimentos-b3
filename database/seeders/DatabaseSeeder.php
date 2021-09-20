@@ -13,8 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        ( new StockTypeSeeder)->run();
-        ( new IncomeTypeSeeder)->run();
-        ( new SectorSeeder)->run();
+        $this->call(  StockTypeSeeder::class);
+        $this->call(  IncomeTypeSeeder::class);
+        $this->call(  SectorSeeder::class);
+        $this->call(  RoleTableSeeder::class);
     }
 }

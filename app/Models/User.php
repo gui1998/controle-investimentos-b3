@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -67,8 +68,47 @@ class User extends Authenticatable
         return static::find($id)->delete();
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function assignRole(Role $role)
+    {
+        return $this->roles()->save($role);
+    }
+
     public function stocks()
     {
         return $this->hasMany(Stock::class);
+    }
+
+    /*** @param string|array $roles */
+    public function authorizeRoles($user, $roles)
+    {
+        if (is_array($roles)) {
+            return $this->hasAnyRole($user, $roles);
+        }
+        return $this->hasRole($user, $roles);
+    }
+
+    /*** Check multiple roles* @param array $roles */
+    public function hasAnyRole($user, $roles)
+    {
+        return (!blank(DB::table('users')->where('users.id', $user->id)
+        ->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->whereIn('roles.name',$roles)
+            ->pluck('roles.name')));
+    }
+
+    /*** Check one role* @param string $role */
+    public function hasRole($user, $role)
+    {
+        return (!blank(DB::table('users')->where('users.id', $user->id)
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->where('roles.name',$role)
+            ->pluck('roles.name')));
     }
 }

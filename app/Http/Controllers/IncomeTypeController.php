@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class IncomeTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,6 +58,13 @@ class IncomeTypeController extends Controller
      */
     public function store(Request $request, IncomeType $incomeType)
     {
+
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -72,8 +84,13 @@ class IncomeTypeController extends Controller
      * @param \App\Models\IncomeType $incomeType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('incomeTypes.index');
+        }
         $incomeType = new IncomeType();
 
         $incomeType = $incomeType->findData($id);
@@ -90,6 +107,11 @@ class IncomeTypeController extends Controller
      */
     public function update(Request $request, IncomeType $incomeType)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(),
             [
                 'name' => 'required',
@@ -113,8 +135,13 @@ class IncomeTypeController extends Controller
      * @param \App\Models\IncomeType $incomeType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('incomeTypes.index');
+        }
         $incomeType = new IncomeType;
         $incomeType->deleteData($id);
 

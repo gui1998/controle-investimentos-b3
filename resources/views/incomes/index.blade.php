@@ -82,9 +82,9 @@
 
                             </div>
                             <div class="col">
-                                <label for="discount">Descontos:</label>
+                                <label for="total">Valor Bruto:</label>
                                 <input type="text"
-                                       class="form-control money"  placeholder="5.10" name="discount" id="discount"
+                                       class="form-control money" placeholder="5.10" name="total" id="total"
                                        required>
 
                             </div>
@@ -92,16 +92,16 @@
 
                         <div class="row">
                             <div class="col">
-                                <label for="total">Valor Bruto:</label>
-                                <input type="text"
-                                       class="form-control money" placeholder="5.10" name="total" id="total"
-                                       required>
-
-                            </div>
-                            <div class="col">
                                 <label for="income_type">Tipo:</label>
                                 <select name="income_type" id="income_type" class="form-control select2" required>
                                 </select>
+                            </div>
+                            <div class="col">
+                                <label for="discount">Descontos:</label>
+                                <input type="text"
+                                       class="form-control money"  placeholder="5.10" name="discount" id="discount"
+                                       required>
+
                             </div>
                             <div class="col">
                                 <label for="stock">Ativo:</label>

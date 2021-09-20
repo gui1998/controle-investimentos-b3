@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Broker extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'brokers';
+    protected $table = 'roles';
     protected $guarded = array();
 
     public function getData()
@@ -37,8 +37,8 @@ class Broker extends Model
         return static::find($id)->delete();
     }
 
-    public function operations()
+    public function users()
     {
-        return $this->hasMany(Operation::class);
+        return $this->belongsToMany(User::class);
     }
 }

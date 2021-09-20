@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Models\StockType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class StockTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,6 +58,12 @@ class StockTypeController extends Controller
      */
     public function store(Request $request, StockType $stockType)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -71,8 +83,13 @@ class StockTypeController extends Controller
      * @param \App\Models\StockType $stockType
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('stockTypes.index');
+        }
         $stockType = new StockType();
 
         $stockType = $stockType->findData($id);
@@ -89,6 +106,12 @@ class StockTypeController extends Controller
      */
     public function update(Request $request, StockType $stockType)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'name' => 'required',
@@ -112,12 +135,17 @@ class StockTypeController extends Controller
      * @param \App\Models\StockType $stockType
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $stockType = new StockType;
-        $stockExists = StockType::with('stocks')->where('id', $id)->first();
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if(!blank($stockExists->stocks)){
+        if (!$authorize) {
+            return redirect()->route('stockTypes.index');
+        }
+        $stockType = new StockType;
+        $stockExists = StockType::with('stock')->where('id', $id)->first();
+
+        if (!blank($stockExists->stocks)) {
             return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
         };
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sector;
 use App\Models\Stock;
 use App\Models\StockType;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,8 +48,8 @@ class StockController extends Controller
                     return $data->sectors->name;
                 })
                 ->addColumn('Actions', function ($data) {
-                    return '<button type="button" class="btn btn-success btn-sm" id="getEditStockData" data-id="' . $data->id . '">Edit</button>
-    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                    return '<button type="button" class="btn btn-success btn-sm" id="getEditStockData" data-id="' . $data->id . '">Editar</button>
+    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Deletar</button>';
                 })
                 ->rawColumns(['Actions'])
                 ->make(true);
@@ -60,6 +66,12 @@ class StockController extends Controller
      */
     public function store(Request $request, Stock $stock)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'code' => 'required|min:4|max:6',
@@ -90,8 +102,13 @@ class StockController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('stocks.index');
+        }
         $stock = new Stock;
         $stocks = $stock->findData($id);
 
@@ -113,6 +130,12 @@ class StockController extends Controller
      */
     public function update(Request $request, Stock $stock)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'code' => 'required|min:4|max:6',
@@ -145,19 +168,31 @@ class StockController extends Controller
      * @param \App\Models\Stock $stock
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('stocks.index');
+        }
         $stock = new Stock;
         $operationExists = Stock::with('operations')->where('id', $id)->first();
 
-        if(!blank($operationExists->operations)){
+        if (!blank($operationExists->operations)) {
             return response()->json(['errors' => 'Ativo esta cadastrado em Operações!']);
+        };
+
+        $incomeExists = Stock::with('incomes')->where('id', $id)->first();
+
+        if (!blank($incomeExists->incomes)) {
+            return response()->json(['errors' => 'Ativo esta cadastrado em Rendimentos!']);
         };
 
         $stock->deleteData($id);
 
         return response()->json(['success' => 'Stock deleted successfully']);
     }
+
     public function getListStocks()
     {
         return Stock::all()->toArray();

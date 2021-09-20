@@ -51,14 +51,14 @@ class IncomeController extends Controller
                     return $data->users->name;
                 })
                 ->addColumn('net_value', function ($data) {
-                    return round((($data->total - $data->discount) * $data->stock_amount),2);
+                    return round((($data->total - $data->discount) * $data->stock_amount), 2);
                 })
                 ->addColumn('stock', function ($data) {
                     return $data->stocks->code;
                 })
                 ->addColumn('Actions', function ($data) {
-                    return '<button type="button" class="btn btn-success btn-sm" id="getEditIncomeData" data-id="' . $data->id . '">Edit</button>
-    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                    return '<button type="button" class="btn btn-success btn-sm" id="getEditIncomeData" data-id="' . $data->id . '">Editar</button>
+    <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Deletar</button>';
                 })
                 ->rawColumns(['Actions'])
                 ->make(true);
@@ -75,6 +75,12 @@ class IncomeController extends Controller
      */
     public function store(Request $request, Income $income)
     {
+
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
 
         $validator = Validator::make($request->all(),
             [
@@ -124,8 +130,13 @@ class IncomeController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('incomes.index');
+        }
         $income = new Income;
         $incomes = $income->findData($id);
 
@@ -146,6 +157,11 @@ class IncomeController extends Controller
      */
     public function update(Request $request, Income $income)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(),
             [
                 'payment_date' => 'required|date_format:d/m/Y',
@@ -189,8 +205,13 @@ class IncomeController extends Controller
      * @param \App\Models\Income $income
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('incomes.index');
+        }
         $income = new Income;
         $income->deleteData($id);
 
@@ -224,7 +245,7 @@ class IncomeController extends Controller
             ->orderBy('payment_date', 'asc')
             ->get();
 
-        $filteredArray = Arr::where($months, function ($value, $key) use($monthParam){
+        $filteredArray = Arr::where($months, function ($value, $key) use ($monthParam) {
             return ($key >= $monthParam->month) && ($key <= Carbon::now()->month);
         });
 

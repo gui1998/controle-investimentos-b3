@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Investment;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class InvestmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +35,11 @@ class InvestmentController extends Controller
      */
     public function store(Request $request, Investment $investment)
     {
+        $authorize = (new User())->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
 
         $validator = Validator::make($request->all(),
             [
@@ -66,6 +77,12 @@ class InvestmentController extends Controller
      */
     public function update(Request $request, Investment $investment)
     {
+        $authorize = (new User())->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'broker_id' => 'required',
@@ -103,8 +120,13 @@ class InvestmentController extends Controller
      * @param \App\Models\Investment $investment
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('investments.index');
+        }
         $investment = new Investment;
         $investment->deleteData($id);
 
@@ -113,9 +135,9 @@ class InvestmentController extends Controller
 
     public function getSectorsStatistics(Request $request)
     {
-        $resultData =  DB::table('investments')
-            ->join('stocks','stocks.id', '=', 'investments.stock_id')
-            ->join('sectors','sectors.id', '=', 'stocks.sector_id')
+        $resultData = DB::table('investments')
+            ->join('stocks', 'stocks.id', '=', 'investments.stock_id')
+            ->join('sectors', 'sectors.id', '=', 'stocks.sector_id')
             ->selectRaw("sum(investments.stock_amount * investments.average_price) as total, sectors.name")
             ->groupBy('sectors.name')
             ->get();
@@ -126,9 +148,9 @@ class InvestmentController extends Controller
 
     public function getTypesStatistics(Request $request)
     {
-        $resultData =  DB::table('investments')
-            ->join('stocks','stocks.id', '=', 'investments.stock_id')
-            ->join('stock_types','stock_types.id', '=', 'stocks.stock_type_id')
+        $resultData = DB::table('investments')
+            ->join('stocks', 'stocks.id', '=', 'investments.stock_id')
+            ->join('stock_types', 'stock_types.id', '=', 'stocks.stock_type_id')
             ->selectRaw("sum(investments.stock_amount * investments.average_price) as total, stock_types.name")
             ->groupBy('stock_types.name')
             ->get();

@@ -8,6 +8,7 @@ use App\Http\Rules\VerifyIfCanSellStock;
 use App\Models\Broker;
 use App\Models\Operation;
 use App\Models\Stock;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ use Illuminate\Support\Facades\Validator;
 
 class OperationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -72,7 +78,11 @@ class OperationController extends Controller
      */
     public function store(Request $request, Operation $operation)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(),
             [
                 'operation_date' => 'required|date_format:d/m/Y',
@@ -136,8 +146,13 @@ class OperationController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('operations.index');
+        }
         $operation = new Operation;
         $operations = $operation->findData($id);
 
@@ -158,7 +173,11 @@ class OperationController extends Controller
      */
     public function update(Request $request, Operation $operation)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(),
             [
                 'operation_date' => 'required|date_format:d/m/Y',
@@ -206,8 +225,13 @@ class OperationController extends Controller
      * @param \App\Models\Operation $operation
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('operations.index');
+        }
         $operation = new Operation;
         $operation->deleteData($id);
 

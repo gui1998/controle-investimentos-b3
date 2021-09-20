@@ -39,22 +39,15 @@
 
                                         </div>
                                         <div class="col">
-                                            <label for="discount" class="font-weight-bold">Desconto:</label>
-                                            <input type="text"
-                                                   class="form-control money @error('discount') is-invalid @enderror"
-                                                   name="discount"
-                                                   value="{{ old('discount', $income->discount) }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
                                             <label for="total" class="font-weight-bold">Valor Bruto:</label>
                                             <input type="text"
                                                    class="form-control money @error('total') is-invalid @enderror"
                                                    name="total"
                                                    value="{{ old('total', $income->total) }}">
                                         </div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col">
                                             <label for="income_type_id">Tipo:</label>
                                             <select name="income_type_id" id="income_type_id" class="form-control select2"
@@ -64,6 +57,13 @@
                                                         value="{{ $types->id }}" {{ $types->id == $income->incomeTypes->id ? 'selected' : '' }}>{{ $types->name }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="discount" class="font-weight-bold">Desconto:</label>
+                                            <input type="text"
+                                                   class="form-control money @error('discount') is-invalid @enderror"
+                                                   name="discount"
+                                                   value="{{ old('discount', $income->discount) }}">
                                         </div>
 
                                         <div class="col">

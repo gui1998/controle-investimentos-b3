@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Broker;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class BrokerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,6 +56,11 @@ class BrokerController extends Controller
      */
     public function store(Request $request, Broker $broker)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -69,8 +80,13 @@ class BrokerController extends Controller
      * @param \App\Models\Broker $broker
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('brokers.index');
+        }
         $broker = new Broker;
         $data = $broker->findData($id);
 
@@ -87,6 +103,11 @@ class BrokerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -98,10 +119,10 @@ class BrokerController extends Controller
         $broker = new Broker;
         $broker->updateData($id, $request->all());
 
-        if($broker){
+        if ($broker) {
             //redirect dengan pesan sukses
             return redirect()->route('brokers.index')->with(['success' => 'Data Berhasil Diupdate!']);
-        }else{
+        } else {
             //redirect dengan pesan error
             return redirect()->route('brokers.index')->with(['error' => 'Data Gagal Diupdate!']);
         }
@@ -114,15 +135,20 @@ class BrokerController extends Controller
      * @param \App\Models\Broker $broker
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+        if (!$authorize) {
+            return redirect()->route('brokers.index');
+        }
         $broker = new Broker;
 
-//        $stockExists = Broker::with('operation')->where('id', $id)->first();
-//
-//        if(!blank($stockExists->stocks)){
-//            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
-//        };
+        $stockExists = Broker::with('operations')->where('id', $id)->first();
+
+        if (!blank($stockExists->operations)) {
+            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
+        };
 
         $broker->deleteData($id);
 
