@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Sector;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -16,9 +21,8 @@ class SectorController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|Factory|View
      */
     public function index(Request $request)
     {
@@ -26,11 +30,9 @@ class SectorController extends Controller
     }
 
     /**
-     * Get the data for listing in yajra.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @param Request $request
+     * @param Sector $sector
+     * @return void
      */
     public function getSectors(Request $request, Sector $sector)
     {
@@ -49,17 +51,16 @@ class SectorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Sector $sector
+     * @return JsonResponse
      */
     public function store(Request $request, Sector $sector)
     {
         $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if(!$authorize){
-            return response()->json(['errors' => ["message"=>"Ação não autorizada!"]]);
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -76,39 +77,35 @@ class SectorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Sector $sector
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return Application|Factory|View|RedirectResponse
      */
     public function edit(Request $request, $id)
     {
         $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if(!$authorize){
+        if (!$authorize) {
             return redirect()->route('sectors.index');
         }
 
         $sector = new Sector;
         $data = $sector->findData($id);
 
-
         return view('sectors.edit', ['sector' => $data]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Sector $sector
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse|RedirectResponse
      */
     public function update(Request $request, $id)
     {
         $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if(!$authorize){
-            return response()->json(['errors' => ["message"=>"Ação não autorizada!"]]);
+        if (!$authorize) {
+            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -133,16 +130,15 @@ class SectorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Sector $sector
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse|RedirectResponse
      */
     public function destroy(Request $request, $id)
     {
         $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if(!$authorize){
+        if (!$authorize) {
             return redirect()->route('sectors.index');
         }
 
@@ -159,6 +155,9 @@ class SectorController extends Controller
         return response()->json(['success' => 'Sector deleted successfully']);
     }
 
+    /**
+     * @return array
+     */
     public function getListSector()
     {
         return Sector::all()->toArray();

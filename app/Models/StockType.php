@@ -14,7 +14,7 @@ class StockType extends Model
 
     public function getData()
     {
-        return static::orderBy('created_at', 'desc')->get();
+        return static::orderBy('name', 'asc')->get();
     }
 
     public function storeData($input)

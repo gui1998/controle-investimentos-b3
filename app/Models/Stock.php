@@ -37,7 +37,7 @@ class Stock extends Model
 
     public function getData()
     {
-        return static::with(['stockTypes', 'sectors'])->orderBy('created_at', 'desc')->get();
+        return static::with(['stockTypes', 'sectors'])->orderBy('code', 'asc')->get();
     }
 
     public function storeData($input)

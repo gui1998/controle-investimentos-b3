@@ -146,7 +146,6 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.1/i18n/pt_br.json"
                 },
-                "order": [[0, "desc"]],
                 ajax: '{{ route('get-stocks') }}',
                 columns: [
                     {data: 'id', name: 'id'},
