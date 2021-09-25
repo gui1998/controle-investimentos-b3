@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,68 +22,68 @@ Route::get('/me', 'ProfileController@me')->name('me');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/', 'HomeController@index')->name('home');
+  Route::get('/', 'HomeController@index')->name('home');
 
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
+  Route::get('/about', function () {
+    return view('about');
+  })->name('about');
 
-    Route::get('/profile', 'ProfileController@index')->name('profile');
-    Route::put('/profile', 'ProfileController@update')->name('profile.update');
+  Route::get('/profile', 'ProfileController@index')->name('profile');
+  Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
 // Resource Route for stocktypes.
-    Route::resource('stockTypes', 'StockTypeController');
+  Route::resource('stockTypes', 'StockTypeController');
 // Route for get stockTypes for yajra post request.
-    Route::get('get-stockTypes', 'StockTypeController@getStockTypes')->name('get-stockTypes');
-    Route::get('list-stockTypes', 'StockTypeController@getListStockTypes')->name('list-stockTypes');
+  Route::get('get-stockTypes', 'StockTypeController@getStockTypes')->name('get-stockTypes');
+  Route::get('list-stockTypes', 'StockTypeController@getListStockTypes')->name('list-stockTypes');
 
 // Resource Route for sectors.
-    Route::resource('sectors', 'SectorController');
+  Route::resource('sectors', 'SectorController');
 // Route for get stocktypes for yajra post request.
-    Route::get('get-sectors', 'SectorController@getSectors')->name('get-sectors');
-    Route::get('list-sectors', 'SectorController@getListSector')->name('list-sectors');
+  Route::get('get-sectors', 'SectorController@getSectors')->name('get-sectors');
+  Route::get('list-sectors', 'SectorController@getListSector')->name('list-sectors');
 
 // Resource Route for stocks.
-    Route::resource('stocks', 'StockController');
+  Route::resource('stocks', 'StockController');
 // Route for get stocktypes for yajra post request.
-    Route::get('get-stocks', 'StockController@getStocks')->name('get-stocks');
-    Route::get('list-stocks', 'StockController@getListStocks')->name('list-stocks');
+  Route::get('get-stocks', 'StockController@getStocks')->name('get-stocks');
+  Route::get('list-stocks', 'StockController@getListStocks')->name('list-stocks');
 
 // Resource Route for income types.
-    Route::resource('incomeTypes', 'IncomeTypeController');
+  Route::resource('incomeTypes', 'IncomeTypeController');
 // Route for get incomeTypes for yajra post request.
-    Route::get('get-incomeTypes', 'IncomeTypeController@getIncomeTypes')->name('get-incomeTypes');
-    Route::get('list-incomeTypes', 'IncomeTypeController@getListIncomeTypes')->name('list-incomeTypes');
+  Route::get('get-incomeTypes', 'IncomeTypeController@getIncomeTypes')->name('get-incomeTypes');
+  Route::get('list-incomeTypes', 'IncomeTypeController@getListIncomeTypes')->name('list-incomeTypes');
 
 // Resource Route for operation type.
-    Route::resource('operationTypes', 'OperationTypeController');
+  Route::resource('operationTypes', 'OperationTypeController');
 // Route for get operationTypes for yajra post request.
-    Route::get('get-operationTypes', 'OperationTypeController@getOperationTypes')->name('get-operationTypes');
-    Route::get('list-operationTypes', 'OperationTypeController@getListOperationTypes')->name('list-operationTypes');
+  Route::get('get-operationTypes', 'OperationTypeController@getOperationTypes')->name('get-operationTypes');
+  Route::get('list-operationTypes', 'OperationTypeController@getListOperationTypes')->name('list-operationTypes');
 
 // Resource Route for brokers.
-    Route::resource('brokers', 'BrokerController');
+  Route::resource('brokers', 'BrokerController');
 // Route for get brokers for yajra post request.
-    Route::get('get-brokers', 'BrokerController@getBrokers')->name('get-brokers');
-    Route::get('list-brokers', 'BrokerController@getListBrokers')->name('list-brokers');
+  Route::get('get-brokers', 'BrokerController@getBrokers')->name('get-brokers');
+  Route::get('list-brokers', 'BrokerController@getListBrokers')->name('list-brokers');
 
 // Resource Route for incomes.
-    Route::resource('incomes', 'IncomeController');
+  Route::resource('incomes', 'IncomeController');
 // Route for get stocktypes for yajra post request.
-    Route::get('get-incomes', 'IncomeController@getIncomes')->name('get-incomes');
-    Route::get('income-statistics', 'IncomeController@getIncomeStatistics')->name('income-statistics');
+  Route::get('get-incomes', 'IncomeController@getIncomes')->name('get-incomes');
+  Route::get('income-statistics', 'IncomeController@getIncomeStatistics')->name('income-statistics');
 
 // Resource Route for operations.
-    Route::resource('operations', 'OperationController');
+  Route::resource('operations', 'OperationController');
 // Route for get stocktypes for yajra post request.
-    Route::get('get-operations', 'OperationController@getOperations')->name('get-operations');
-    Route::get('buy-and-sell-statistics', 'OperationController@getBuyAndSellStatistics')->name('buy-and-sell-statistics');
-    Route::get('irrf-statistics', 'OperationController@getIrrfStatistics')->name('irrf-statistics');
+  Route::get('get-operations', 'OperationController@getOperations')->name('get-operations');
+  Route::get('buy-and-sell-statistics', 'OperationController@getBuyAndSellStatistics')->name('buy-and-sell-statistics');
+  Route::get('irrf-statistics', 'OperationController@getIrrfStatistics')->name('irrf-statistics');
 
-    Route::resource('investments', 'InvestmentController');
-    Route::get('sectors-statistics', 'InvestmentController@getSectorsStatistics')->name('sectors-statistics');
-    Route::get('types-statistics', 'InvestmentController@getTypesStatistics')->name('types-statistics');
+  Route::resource('investments', 'InvestmentController');
+  Route::get('sectors-statistics', 'InvestmentController@getSectorsStatistics')->name('sectors-statistics');
+  Route::get('types-statistics', 'InvestmentController@getTypesStatistics')->name('types-statistics');
 
-    Route::resource('results', 'ResultController');
-    Route::get('list-results', 'ResultController@getListResults')->name('list-results');
+  Route::resource('results', 'ResultController');
+  Route::get('list-results', 'ResultController@getListResults')->name('list-results');
 });

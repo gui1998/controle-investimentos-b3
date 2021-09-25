@@ -10,157 +10,170 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class SectorController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
 
-    /**
-     * @param Request $request
-     * @return Application|Factory|View
-     */
-    public function index(Request $request)
-    {
-        return view('sectors.index');
-    }
+  /**
+   * @param Request $request
+   * @return Application|Factory|View
+   */
+  public function index(Request $request)
+  {
+    return view('sectors.index');
+  }
 
-    /**
-     * @param Request $request
-     * @param Sector $sector
-     * @return void
-     */
-    public function getSectors(Request $request, Sector $sector)
-    {
-        $data = $sector->getData();
-        try {
-            return DataTables::of($data)
-                ->addColumn('Actions', function ($data) {
-                    return '<button type="button" class="btn btn-success btn-sm" id="getEditSectorData" data-id="' . $data->id . '">Editar</button>
+  /**
+   * @param Request $request
+   * @param Sector $sector
+   * @return void
+   */
+  public function getSectors(Request $request, Sector $sector)
+  {
+    $data = $sector->getData();
+    try {
+      return DataTables::of($data)
+        ->addColumn('Actions', function ($data) {
+          return '<button type="button" class="btn btn-success btn-sm" id="getEditSectorData" data-id="' . $data->id . '">Editar</button>
     <button type="button" data-id="' . $data->id . '" class="btn btn-danger btn-sm" id="getDeleteId">Deletar</button>';
-                })
-                ->rawColumns(['Actions'])
-                ->make(true);
-        } catch (\Exception $e) {
-            print($e);
-        }
+        })
+        ->rawColumns(['Actions'])
+        ->make(true);
+    } catch (\Exception $e) {
+      print($e);
+    }
+  }
+
+  /**
+   * @param Request $request
+   * @param Sector $sector
+   * @return JsonResponse
+   */
+  public function store(Request $request, Sector $sector)
+  {
+    $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+    if (!$authorize) {
+      return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
     }
 
-    /**
-     * @param Request $request
-     * @param Sector $sector
-     * @return JsonResponse
-     */
-    public function store(Request $request, Sector $sector)
-    {
-        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+    $validator = Validator::make($request->all(),
+      [
+        'name' => 'required|unique:sectors,name',
+      ],
+      [
+        'name.required' => 'O campo nome é obrigatório.',
+        'name.unique' => 'O campo nome é único.',
+      ]
+    );
 
-        if (!$authorize) {
-            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
-
-        $sector->storeData($request->all());
-
-        return response()->json(['success' => 'Sector added successfully']);
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()->all()]);
     }
 
-    /**
-     * @param Request $request
-     * @param $id
-     * @return Application|Factory|View|RedirectResponse
-     */
-    public function edit(Request $request, $id)
-    {
-        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+    $sector->storeData($request->all());
 
-        if (!$authorize) {
-            return redirect()->route('sectors.index');
-        }
+    return response()->json(['success' => 'Sector added successfully']);
+  }
 
-        $sector = new Sector;
-        $data = $sector->findData($id);
+  /**
+   * @param Request $request
+   * @param $id
+   * @return Application|Factory|View|RedirectResponse
+   */
+  public function edit(Request $request, $id)
+  {
+    $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        return view('sectors.edit', ['sector' => $data]);
+    if (!$authorize) {
+      return redirect()->route('sectors.index');
     }
 
-    /**
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse|RedirectResponse
-     */
-    public function update(Request $request, $id)
-    {
-        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+    $sector = new Sector;
+    $data = $sector->findData($id);
 
-        if (!$authorize) {
-            return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
-        }
+    return view('sectors.edit', ['sector' => $data]);
+  }
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
+  /**
+   * @param Request $request
+   * @param $id
+   * @return JsonResponse|RedirectResponse
+   */
+  public function update(Request $request, $id)
+  {
+    $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
-
-        $sector = new Sector;
-        $sector->updateData($id, $request->all());
-
-        if ($sector) {
-            //redirect dengan pesan sukses
-            return redirect()->route('sectors.index')->with(['success' => 'Data Berhasil Diupdate!']);
-        } else {
-            //redirect dengan pesan error
-            return redirect()->route('sectors.index')->with(['error' => 'Data Gagal Diupdate!']);
-        }
-
+    if (!$authorize) {
+      return response()->json(['errors' => ["message" => "Ação não autorizada!"]]);
     }
 
-    /**
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse|RedirectResponse
-     */
-    public function destroy(Request $request, $id)
-    {
-        $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+    $validator = Validator::make($request->all(),
+      [
+        'name' => 'required|unique:sectors,name,'.$id,
+      ],
+      [
+        'name.required' => 'O campo nome é obrigatório.',
+        'name.unique' => 'O campo nome é único.',
+      ]
+    );
 
-        if (!$authorize) {
-            return redirect()->route('sectors.index');
-        }
-
-        $sector = new Sector;
-
-        $stockExists = Sector::with('stocks')->where('id', $id)->first();
-
-        if (!blank($stockExists->stocks)) {
-            return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
-        };
-
-        $sector->deleteData($id);
-
-        return response()->json(['success' => 'Sector deleted successfully']);
+    if ($validator->fails()) {
+      return Redirect::back()->withErrors($validator);
     }
 
-    /**
-     * @return array
-     */
-    public function getListSector()
-    {
-        return Sector::all()->toArray();
+    $sector = new Sector;
+    $sector->updateData($id, $request->all());
+
+    if ($sector) {
+
+      return redirect()->route('sectors.index')->with(['success' => 'Atualizado com sucesso!']);
+    } else {
+
+      return redirect()->route('sectors.index')->with(['error' => 'Falha na atualização!']);
     }
+
+  }
+
+  /**
+   * @param Request $request
+   * @param $id
+   * @return JsonResponse|RedirectResponse
+   */
+  public function destroy(Request $request, $id)
+  {
+    $authorize = (new User)->authorizeRoles($request->user('web'), ['admin']);
+
+    if (!$authorize) {
+      return redirect()->route('sectors.index');
+    }
+
+    $sector = new Sector;
+
+    $stockExists = Sector::with('stocks')->where('id', $id)->first();
+
+    if (!blank($stockExists->stocks)) {
+      return response()->json(['errors' => 'Setor esta cadastrado em Ativos!']);
+    };
+
+    $sector->deleteData($id);
+
+    return response()->json(['success' => 'Sector deleted successfully']);
+  }
+
+  /**
+   * @return array
+   */
+  public function getListSector()
+  {
+    return Sector::all()->toArray();
+  }
 
 }
