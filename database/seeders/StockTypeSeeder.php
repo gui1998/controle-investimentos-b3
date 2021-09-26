@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 class StockTypeSeeder extends Seeder
 {
   static $stockTypes = [
-    'FII',
+    'Fundo',
     'Ação',
-    'ADR',
+    'BDR',
     'ETF',
   ];
 
